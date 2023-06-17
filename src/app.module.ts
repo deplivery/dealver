@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
-import { UsersEntity } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './modules/users.module';
 
 @Module({
   imports: [
@@ -26,17 +24,11 @@ import { UsersModule } from './modules/users.module';
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [
-        // TODO:
-        // 물론 전체 경로 잡아서 이부분 생략할 수 있습니다. 차후 적용하면 될것 같습니다.
-        UsersEntity,
-      ],
       autoLoadEntities: true,
       charset: 'utf8mb4',
       synchronize: false,
       logging: process.env.NODE_ENV === 'local',
     }),
-    UsersModule,
   ],
   controllers: [],
   providers: [],
