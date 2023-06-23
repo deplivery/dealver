@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as process from 'process';
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerSetting } from './shared/swaggerConfig';
+import { SwaggerSetting } from './shared/swagger-config';
 import passport from 'passport';
 
 declare const module: any;
