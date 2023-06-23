@@ -1,16 +1,11 @@
 import { registerAs } from '@nestjs/config';
-import * as Joi from 'joi';
 
 export default registerAs('typeorm', () => ({
   type: 'mysql',
   host: process.env.MYSQL_HOST,
-  port: parseInt(process.env.MYSQL_PORT, 10),
+  port: process.env.MYSQL_PORT,
   username: process.env.MYSQL_USER,
-  password: Joi.string().when('NODE_ENV', {
-    is: 'local',
-    then: Joi.string().default(''),
-    otherwise: Joi.string().required(),
-  }),
+  password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   autoLoadEntities: true,
   charset: 'utf8mb4',
