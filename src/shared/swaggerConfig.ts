@@ -1,5 +1,5 @@
-import {INestApplication} from "@nestjs/common";
-import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import { INestApplication } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export const SwaggerSetting = (app: INestApplication) => {
   const config = new DocumentBuilder()
@@ -9,7 +9,6 @@ export const SwaggerSetting = (app: INestApplication) => {
     .addCookieAuth('connect.sid')
     .build();
 
-
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/v1', app, document);
 };
