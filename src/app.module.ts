@@ -3,6 +3,8 @@ import { validationSchema } from './config/database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/typeorm.config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import typeOrmConfig from './config/typeorm.config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
