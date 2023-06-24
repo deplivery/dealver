@@ -9,10 +9,10 @@ services:
     volumes:
       - .:/app
     ports:
-      - "${HOST:-3000}:3000"
+      - "${HOST:-8000}:${HOST:-8000}"
     depends_on:
       - redis
-      - kafka
+#      - kafka
 
   mysql:
     image: mysql:latest
