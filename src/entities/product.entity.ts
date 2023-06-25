@@ -1,9 +1,16 @@
 import { InputError } from '../shared/error/input.error';
-import { CreateProductInput } from '../services/product.service';
 
 export enum PRODUCT_STATUS {
   AVAILABLE = 'Available',
   UNAVAILABLE = 'Unavailable',
+}
+
+export interface CreateProductInput {
+  storeManagerId: number;
+  name: string;
+  price: number;
+  status: PRODUCT_STATUS;
+  count: number;
 }
 
 export class Product {
