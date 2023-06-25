@@ -15,6 +15,9 @@ export class Product {
   count: number;
 
   static of(input: CreateProductInput) {
+    if (input.storeManagerId < 1 || !input.name || input.price < 0 || !input.status || input.count < 0) {
+      throw new InputError('잘못된 input');
+    }
     const product = new Product();
     product.storeManagerId = input.storeManagerId;
     product.name = input.name;

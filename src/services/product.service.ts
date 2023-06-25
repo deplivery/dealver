@@ -16,10 +16,6 @@ export class ProductService {
   constructor(private readonly productRepository: ProductRepository) {}
 
   async createProduct(input: CreateProductInput) {
-    // TODO: 현재 임시. 제대로된 에러 핸들링 필요 (테스트도 같이 수정)
-    if (input.storeManagerId < 1 || !input.name || input.price < 0 || !input.status || input.count < 0) {
-      throw new InputError('잘못된 input');
-    }
     return await this.productRepository.createProduct(Product.of(input));
   }
 

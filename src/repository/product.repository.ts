@@ -21,10 +21,6 @@ export class ProductRepository {
   }
 
   async getProducts(storeManagerId: number, status?: PRODUCT_STATUS): Promise<Product[]> {
-    if (!storeManagerId) {
-      throw new InputError('storeManagerId가 필요합니다.');
-    }
-
     const query: FindManyOptions<Product> = {
       where: {
         storeManagerId,
