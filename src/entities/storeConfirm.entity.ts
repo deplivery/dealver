@@ -1,10 +1,11 @@
+type StoreState = 'Ready' | 'Confirm' | 'Reject' | 'Delete';
 export class StoreConfirm {
   storeId: number;
-  state: 'Ready' | 'Confirm' | 'Reject';
+  state: StoreState;
   reason: string;
   checkerId: number;
 
-  static of(state: 'Ready' | 'Confirm' | 'Reject', reason: string, checkerId: number): StoreConfirm {
+  static of(state: StoreState, reason: string, checkerId: number): StoreConfirm {
     const storeConfirm = new StoreConfirm();
     storeConfirm.state = state;
     storeConfirm.reason = reason;
