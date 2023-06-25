@@ -10,7 +10,7 @@ describe('Redis 테스트. 실제 레디스를 갖다오므로 레디스 연결�
   });
 
   afterEach(async () => {
-    await redisService.setValue(testKey, '');
+    await redisService.setValue(testKey, '', 10);
   });
 
   it('set key & get value 테스트', async () => {
@@ -18,7 +18,7 @@ describe('Redis 테스트. 실제 레디스를 갖다오므로 레디스 연결�
     const value = 'testValue';
 
     // Set value in Redis
-    await redisService.setValue(key, value);
+    await redisService.setValue(key, value, 10);
 
     // Get value from Redis
     const result = await redisService.getValue(key);
