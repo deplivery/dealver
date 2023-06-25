@@ -3,11 +3,11 @@ import { User } from '../entities/user.entity';
 
 @Injectable()
 export class UserRepository {
-  async createUser(): Promise<User> {
+  async createUser(user: User): Promise<User> {
     return new User();
   }
 
-  async getUser(): Promise<User> {
+  async getUser(userId: number): Promise<User> {
     return new User();
   }
 

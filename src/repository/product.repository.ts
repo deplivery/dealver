@@ -1,4 +1,4 @@
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, In, Repository } from 'typeorm';
 import { Product, PRODUCT_STATUS } from '../entities/product.entity';
 import { CustomRepository } from '../shared/typeorm-ex.decorator';
 
@@ -22,5 +22,14 @@ export class ProductRepository extends Repository<Product> {
     };
 
     return this.find(query);
+  }
+
+  async getAvailableProductsByProductIds(productIds: number[]): Promise<Product[]> {
+    return await this.find({
+      where: {
+        id: In(productIds),
+        status: PRODUCT_STATUS.AVAILABLE,
+      },
+    });
   }
 }
