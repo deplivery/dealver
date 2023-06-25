@@ -1,30 +1,53 @@
-import { CoreEntity } from '../shared/core.entity';
-import { Column, Entity } from 'typeorm';
+import { InputError } from '../shared/error/input.error';
 
 export enum PRODUCT_STATUS {
   AVAILABLE = 'Available',
   UNAVAILABLE = 'Unavailable',
 }
 
-@Entity()
-export class Product extends CoreEntity {
-  @Column()
+export class Product {
+  id: number;
   storeManagerId: number;
-  @Column()
   name: string;
-  @Column()
   price: number;
-  @Column()
   status: PRODUCT_STATUS;
-  @Column()
   count: number;
 
-  constructor(storeManagerId: number, name: string, price: number, status: PRODUCT_STATUS, count: number) {
-    super();
-    this.storeManagerId = storeManagerId;
+  static of(storeManagerId: number, name: string, price: number, status: PRODUCT_STATUS, count: number) {
+    const product = new Product();
+    product.storeManagerId = storeManagerId;
+    product.name = name;
+    product.price = price;
+    product.status = status;
+    product.count = count;
+    return product;
+  }
+
+  changeName(name: string) {
+    if (!name) {
+      throw new InputError('name이 유효하지 않습니다.');
+    }
     this.name = name;
+  }
+
+  changePrice(price: number) {
+    if (price < 0) {
+      throw new InputError('price는 0보다 작을 수 없습니다.');
+    }
     this.price = price;
+  }
+
+  changeStatus(status: PRODUCT_STATUS) {
+    if (this.status === status) {
+      return;
+    }
     this.status = status;
+  }
+
+  changeCount(count: number) {
+    if (count < 0) {
+      throw new InputError('count는 0보다 작을 수 없습니다.');
+    }
     this.count = count;
   }
 }

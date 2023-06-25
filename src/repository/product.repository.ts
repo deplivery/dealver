@@ -34,8 +34,4 @@ export class ProductRepository {
 
     return this.productRepository.find(query);
   }
-
-  async updateProduct(product: Product): Promise<Product> {
-    return this.productRepository.save(product);
-  }
 }
