@@ -22,27 +22,28 @@ describe('store', () => {
     service = app.get<StoreService>(StoreService);
   });
 
-  beforeAll(() => {
-    storeRepository.useValue.findByAddress.mockImplementation(() => undefined);
-  });
-
   describe('가게 생성', () => {
-    it('가게는 관리자와 점주만 생성할수 있다.', async () => {
-      const user = { role: 'admin' };
-      const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
-      const result = await service.createStore(user, input);
-      expect(result).toBe(true);
+    beforeEach(() => {
+      storeRepository.useValue.findByAddress.mockImplementation(() => undefined);
+      storeRepository.useValue.save.mockImplementation(async (store: Store) => store);
     });
 
     it('가게는 관리자와 점주만 생성할수 있다.', async () => {
-      const user = { role: 'owner' };
+      const user = { role: 'admin', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
       const result = await service.createStore(user, input);
-      expect(result).toBe(true);
+      expect(result).toBeInstanceOf(Store);
     });
 
     it('가게는 관리자와 점주만 생성할수 있다.', async () => {
-      const user = { role: 'customer' };
+      const user = { role: 'owner', id: 1 };
+      const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
+      const result = await service.createStore(user, input);
+      expect(result).toBeInstanceOf(Store);
+    });
+
+    it('가게는 관리자와 점주만 생성할수 있다.', async () => {
+      const user = { role: 'customer', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
       expect(async () => {
         await service.createStore(user, input);
@@ -50,14 +51,14 @@ describe('store', () => {
     });
 
     it('가게 정보에서 영업시간 < 영업 마감시간 생성할수 있다.', async () => {
-      const user = { role: 'owner' };
+      const user = { role: 'owner', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
       const result = await service.createStore(user, input);
-      expect(result).toBe(true);
+      expect(result).toBeInstanceOf(Store);
     });
 
     it('가게 정보에서 영업시간 >= 영업 마감시간 생성할수 없다.', async () => {
-      const user = { role: 'owner' };
+      const user = { role: 'owner', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 3, endHour: 2 };
       expect(async () => {
         await service.createStore(user, input);
@@ -65,19 +66,31 @@ describe('store', () => {
     });
 
     it('가게 주소는 unique 해야한다.', async () => {
-      const user = { role: 'owner' };
+      const user = { role: 'owner', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
       const result = await service.createStore(user, input);
-      expect(result).toBe(true);
+      expect(result).toBeInstanceOf(Store);
     });
 
     it('가게 주소가 존재하면 가게를 생성할수 없다.', async () => {
-      const user = { role: 'owner' };
+      const user = { role: 'owner', id: 1 };
       const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
       storeRepository.useValue.findByAddress.mockImplementation(async () => new Store());
       expect(async () => {
         await service.createStore(user, input);
       }).rejects.toThrowError(new InputError('이미 존재하는 가게입니다.'));
+    });
+
+    it('가게를 관리자가 생성할 때 확인요청이 가지 않는다.', async () => {
+      const user = { role: 'admin', id: 1 };
+      const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
+      await service.createStore(user, input);
+      expect(storeRepository.useValue.saveConfirm).not.toBeCalled();
+    });
+    it('가게를 점주가 생성할 때 확인요청이 간다.', async () => {
+      const user = { role: 'admin', id: 1 };
+      const input = { name: 'test', address: 'test', startHour: 1, endHour: 2 };
+      await service.createStore(user, input);
     });
   });
 });
