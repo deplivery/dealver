@@ -1,28 +1,40 @@
-import { pinoLoggerConfig } from '../../config/pino-logger.config';
+import { loggerConfig } from '../../config/logger.config';
 
 class LoggerService {
-  private static readonly logger = pinoLoggerConfig;
+  private static instance: LoggerService;
+  private readonly logger;
+
+  private constructor() {
+    this.logger = loggerConfig;
+  }
+
+  static getInstance(): LoggerService {
+    if (!LoggerService.instance) {
+      LoggerService.instance = new LoggerService();
+    }
+    return LoggerService.instance;
+  }
 
   // TODO: 추후 로그 저장 (ex. ELK) 작업 필요
-  static error(message: string, context?: any, stack?: any) {
-    LoggerService.logger.error({ message, stack, context });
+  error(message: string, context?: any, stack?: any) {
+    this.logger.error({ message, stack, context });
   }
 
-  static log(message: string, context?: any) {
-    LoggerService.logger.info({ message, context });
+  log(message: string, context?: any) {
+    this.logger.info({ message, context });
   }
 
-  static warn(message: string, context?: any) {
-    LoggerService.logger.warn({ message, context });
+  warn(message: string, context?: any) {
+    this.logger.warn({ message, context });
   }
 
-  static debug(message: string, context?: any) {
-    LoggerService.logger.debug({ message, context });
+  debug(message: string, context?: any) {
+    this.logger.debug({ message, context });
   }
 
-  static verbose(message: string, context?: any) {
-    LoggerService.logger.trace({ message, context });
+  verbose(message: string, context?: any) {
+    this.logger.trace({ message, context });
   }
 }
 
-export const logger = LoggerService;
+export const logger = LoggerService.getInstance();

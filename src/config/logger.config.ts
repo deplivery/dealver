@@ -12,4 +12,4 @@ const prettyPrintOptions: pinoPretty.PrettyOptions = {
   messageFormat: '{msg}',
 };
 
-export const pinoLoggerConfig: pino.Logger = pino(loggerOptions, pinoPretty(prettyPrintOptions));
+export const loggerConfig: pino.Logger = pino(loggerOptions, pinoPretty(prettyPrintOptions));
