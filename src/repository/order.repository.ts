@@ -3,11 +3,11 @@ import { Order } from '../entities/order.entity';
 
 @Injectable()
 export class OrderRepository {
-  async createOrder(): Promise<Order> {
+  async createOrder(order: Order): Promise<Order> {
     return new Order();
   }
 
-  async getOrder(): Promise<Order> {
+  async getOrderById(id: number): Promise<Order> {
     return new Order();
   }
 
