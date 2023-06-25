@@ -12,12 +12,14 @@ export enum ORDER_STATUS {
 
 export interface CreateOrderInput {
   userId: number;
+  storeId: number;
   status: ORDER_STATUS;
 }
 
 export class Order {
   id: number;
   userId: number;
+  storeId: number;
   status: ORDER_STATUS;
 
   static of(input: CreateOrderInput) {
@@ -27,6 +29,7 @@ export class Order {
     const order = new Order();
     order.userId = input.userId;
     order.status = input.status;
+    order.storeId = input.storeId;
     return order;
   }
 }
