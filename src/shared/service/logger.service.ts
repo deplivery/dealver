@@ -1,18 +1,7 @@
-import pinoPretty from 'pino-pretty';
-import pino from 'pino';
+import { pinoLoggerConfig } from '../../config/pino-logger.config';
 
 class LoggerService {
-  private static readonly logger: pino.Logger = pino(
-    {
-      level: 'info',
-    },
-    pinoPretty({
-      colorize: true,
-      translateTime: true,
-      ignore: 'pid,hostname',
-      messageFormat: '{msg}',
-    }),
-  );
+  private static readonly logger = pinoLoggerConfig;
 
   // TODO: 추후 로그 저장 (ex. ELK) 작업 필요
   static error(message: string, context?: any, stack?: any) {
