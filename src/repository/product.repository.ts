@@ -1,23 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import { Product, PRODUCT_STATUS } from '../entities/product.entity';
-import { InputError } from '../shared/error/input.error';
+import { CustomRepository } from '../shared/typeorm-ex.decorator';
 
-@Injectable()
-export class ProductRepository {
-  constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
-  ) {}
-
+@CustomRepository({ entity: Product })
+export class ProductRepository extends Repository<Product> {
   async createProduct(product: Product): Promise<Product> {
-    const createdProduct = this.productRepository.create(product);
-    return this.productRepository.save(createdProduct);
+    const createdProduct = this.create(product);
+    return this.save(createdProduct);
   }
 
   async getProductById(id: number): Promise<Product> {
-    return this.productRepository.findOne({ where: { id } });
+    return this.findOne({ where: { id } });
   }
 
   async getProducts(storeManagerId: number, status?: PRODUCT_STATUS): Promise<Product[]> {
@@ -28,6 +21,6 @@ export class ProductRepository {
       },
     };
 
-    return this.productRepository.find(query);
+    return this.find(query);
   }
 }
