@@ -2,7 +2,7 @@ import pino from 'pino';
 import pinoPretty from 'pino-pretty';
 
 const loggerOptions: pino.LoggerOptions = {
-  level: 'info',
+  level: process.env.NODE_ENV === 'live' ? 'info' : 'trace',
 };
 
 const prettyPrintOptions: pinoPretty.PrettyOptions = {
