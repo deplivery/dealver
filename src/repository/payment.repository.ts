@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common';
 import { Payment } from '../entities/payment.entity';
+import { CustomRepository } from '../shared/typeorm-ex.decorator';
+import { FindManyOptions, getManager, In, Repository, SelectQueryBuilder } from 'typeorm';
+import { Product } from '../entities/product.entity';
 
-@Injectable()
-export class PaymentRepository {
-  async createPayment(): Promise<Payment> {
-    return new Payment();
+@CustomRepository({ entity: Payment })
+export class PaymentRepository extends Repository<Payment> {
+  async createPayment(payment: Payment): Promise<Payment> {
+    const createdPayment = this.create(payment);
+    return this.save(createdPayment);
   }
 
-  async getPayment(): Promise<Payment> {
-    return new Payment();
+  async getPaymentById(id: number): Promise<Payment> {
+    return this.findOne({ where: { id } });
   }
 
-  async updatePayment(payment: Payment): Promise<Payment> {
-    return payment;
+  async getPayments(storeManagerId?: number, userId?: number, productId?: number): Promise<Payment[]> {
+    return [];
   }
 }

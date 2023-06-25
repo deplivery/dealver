@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { MockedValueProvider, mockProvider } from '../../test/util/mock';
 import { OrderRepository } from '../repository/order.repository';
-import { CreateProductInput, ProductService } from './product.service';
-import { Product, PRODUCT_STATUS } from '../entities/product.entity';
+import { CreateProductInput, Product, PRODUCT_STATUS } from '../entities/product.entity';
 import { ProductRepository } from '../repository/product.repository';
 import { InputError } from '../shared/error/input.error';
+import { ProductService } from './product.service';
 
 describe('product', () => {
   let productService: ProductService;

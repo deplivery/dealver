@@ -1,15 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repository/product.repository';
 import { InputError } from '../shared/error/input.error';
-import { Product, PRODUCT_STATUS } from '../entities/product.entity';
-
-export interface CreateProductInput {
-  storeManagerId: number;
-  name: string;
-  price: number;
-  status: PRODUCT_STATUS;
-  count: number;
-}
+import { CreateProductInput, Product, PRODUCT_STATUS } from '../entities/product.entity';
 
 @Injectable()
 export class ProductService {
