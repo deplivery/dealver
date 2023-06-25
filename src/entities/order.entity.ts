@@ -12,7 +12,8 @@ export enum ORDER_STATUS {
 
 export interface CreateOrderInput {
   userId: number;
-  storeId: number;
+  productId?: number;
+  storeId?: number;
   status: ORDER_STATUS;
 }
 
@@ -23,7 +24,7 @@ export class Order {
   status: ORDER_STATUS;
 
   static of(input: CreateOrderInput) {
-    if (input.userId < 1 || !input.status) {
+    if (input.userId < 1 || input.storeId < 1 || !input.status) {
       throw new InputError('잘못된 input');
     }
     const order = new Order();
