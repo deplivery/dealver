@@ -20,9 +20,7 @@ export class ProductService {
     if (input.storeManagerId < 1 || !input.name || input.price < 0 || !input.status || input.count < 0) {
       throw new InputError('잘못된 input');
     }
-    return await this.productRepository.createProduct(
-      new Product(input.storeManagerId, input.name, input.price, input.status, input.count),
-    );
+    return await this.productRepository.createProduct(Product.of(input));
   }
 
   async getProduct(id: number) {

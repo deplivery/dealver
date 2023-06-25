@@ -1,4 +1,5 @@
 import { InputError } from '../shared/error/input.error';
+import { CreateProductInput } from '../services/product.service';
 
 export enum PRODUCT_STATUS {
   AVAILABLE = 'Available',
@@ -13,13 +14,13 @@ export class Product {
   status: PRODUCT_STATUS;
   count: number;
 
-  static of(storeManagerId: number, name: string, price: number, status: PRODUCT_STATUS, count: number) {
+  static of(input: CreateProductInput) {
     const product = new Product();
-    product.storeManagerId = storeManagerId;
-    product.name = name;
-    product.price = price;
-    product.status = status;
-    product.count = count;
+    product.storeManagerId = input.storeManagerId;
+    product.name = input.name;
+    product.price = input.price;
+    product.status = input.status;
+    product.count = input.count;
     return product;
   }
 

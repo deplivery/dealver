@@ -28,7 +28,7 @@ describe('product', () => {
     let product;
     beforeAll(() => {
       productRepository.useValue.createProduct.mockImplementation(async (input: CreateProductInput) => {
-        product = new Product(input.storeManagerId, input.name, input.price, input.status, input.count);
+        product = Product.of(input);
         return product;
       });
     });
@@ -61,7 +61,13 @@ describe('product', () => {
   });
 
   describe('getProduct()', () => {
-    const product = new Product(1, 'hello', 1000, PRODUCT_STATUS.AVAILABLE, 10);
+    const product = Product.of({
+      storeManagerId: 1,
+      name: 'available',
+      price: 1000,
+      status: PRODUCT_STATUS.AVAILABLE,
+      count: 10,
+    });
 
     beforeAll(() => {
       productRepository.useValue.getProductById.mockImplementation(async (id: number) => product);
@@ -81,8 +87,22 @@ describe('product', () => {
   });
 
   describe('getProducts()', () => {
-    const availableProduct = new Product(1, 'available', 1000, PRODUCT_STATUS.AVAILABLE, 10);
-    const unavailableProduct = new Product(1, 'unavailable', 1000, PRODUCT_STATUS.UNAVAILABLE, 10);
+    const availableInput = {
+      storeManagerId: 1,
+      name: 'available',
+      price: 1000,
+      status: PRODUCT_STATUS.AVAILABLE,
+      count: 10,
+    };
+    const unavailableInput = {
+      storeManagerId: 1,
+      name: 'available',
+      price: 1000,
+      status: PRODUCT_STATUS.UNAVAILABLE,
+      count: 10,
+    };
+    const availableProduct = Product.of(availableInput);
+    const unavailableProduct = Product.of(unavailableInput);
     beforeAll(() => {
       productRepository.useValue.getProducts.mockImplementation(
         async (storeManagerId: number, status?: PRODUCT_STATUS) => {
@@ -124,13 +144,7 @@ describe('product', () => {
       expect(result).toEqual([unavailableProduct]);
     });
 
-    it('status가 undefined일 때', async () => {
-      const storeManagerId = 1;
-      const result = await productService.getProducts(storeManagerId);
-      expect(result).toHaveLength(2);
-    });
-
-    it('status가 undefined일 때', async () => {
+    it('status를 넣지 않았을 때', async () => {
       const storeManagerId = 1;
       const result = await productService.getProducts(storeManagerId);
       expect(result).toHaveLength(2);
