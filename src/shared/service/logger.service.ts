@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import pinoPretty from 'pino-pretty';
 import pino from 'pino';
 
-@Injectable()
 class LoggerService {
   private static readonly logger: pino.Logger = pino(
     {
