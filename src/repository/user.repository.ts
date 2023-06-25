@@ -1,13 +1,10 @@
-import { Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';
+import { CustomRepository } from '../shared/typeorm-ex.decorator';
+import { Repository } from 'typeorm';
 
-@Injectable()
-export class UserRepository {
+@CustomRepository({ entity: User })
+export class UserRepository extends Repository<User> {
   async createUser(user: User): Promise<User> {
-    return new User();
-  }
-
-  async getUser(userId: number): Promise<User> {
     return new User();
   }
 
