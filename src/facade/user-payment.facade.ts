@@ -10,6 +10,7 @@ import { v4 } from 'uuid';
 import { CacheService } from '../interface/cache.interface';
 import { ORDER_STATUS } from '../entities/order.entity';
 import { OrderDetailService } from '../services/order-detail.service';
+import { RedisService } from '../infra/redis.service';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 
@@ -21,7 +22,7 @@ export class UserPaymentFacade {
     private readonly orderDetailService: OrderDetailService,
     private readonly userService: UserService,
     private readonly productService: ProductService,
-    private readonly cacheService: CacheService,
+    private readonly cacheService: RedisService,
   ) {}
 
   async registerUserPayment(userId: number, paymentType: PAYMENT_TYPE, productCounts: ProductCount[]): Promise<string> {
@@ -42,9 +43,10 @@ export class UserPaymentFacade {
   }
 
   /**
-   * 카카오페이 결제가 완료되면 Redis에서 가져온 order 정보로 주문 진행
+   * 카카오페이 결제가 완료되면 Redis 에서 가져온 order 정보로 주문 진행
    *
-   * @param {string} key
+   * @param key
+   * @return Promise<OrderDetail[]>
    */
   async processUserPayment(key: string): Promise<OrderDetail[]> {
     const rawValue = await this.cacheService.getValue(key);
