@@ -12,7 +12,9 @@ services:
       - "${HOST:-8000}:${HOST:-8000}"
     depends_on:
       - redis
-      - kafka
+      - kafka-1
+      - kafka-2
+      - kafka-3
   mysql:
     image: mysql:latest
     container_name: dealver_mysql
