@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/typeorm.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { KafkaModule } from './infra/kafka/kafka.module';
+import { TestConsumerService } from './test.consumer';
 
 @Module({
   imports: [
@@ -19,8 +21,9 @@ import { AppService } from './app.service';
       useFactory: async (configService: ConfigService) => configService.get('typeorm'),
       inject: [ConfigService],
     }),
+    KafkaModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TestConsumerService],
 })
 export class AppModule {}
