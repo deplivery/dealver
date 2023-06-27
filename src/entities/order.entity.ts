@@ -22,6 +22,7 @@ export class Order {
   userId: number;
   storeId: number;
   status: ORDER_STATUS;
+  createAt: Date;
 
   static of(input: CreateOrderInput) {
     if (input.userId < 1 || input.storeId < 1 || !input.status) {
@@ -32,5 +33,14 @@ export class Order {
     order.status = input.status;
     order.storeId = input.storeId;
     return order;
+  }
+
+  canWriteReview() {
+    const now = Date.now();
+    return (
+      this.status === ORDER_STATUS.DELIVERED &&
+      this.createAt.getTime() + 60 * 60 * 1000 < now &&
+      this.createAt.getTime() + 24 * 60 * 60 * 1000 > now
+    );
   }
 }
