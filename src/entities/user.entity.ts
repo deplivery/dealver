@@ -1,27 +1,14 @@
-import { InputError } from 'src/shared/error/input.error';
+import { Column, Entity } from 'typeorm';
+import { CoreEntity } from '../shared/core.entity';
 
-export interface CreateUserInput {
-  nickName: string;
+@Entity({ name: 'users' })
+export class UserEntity extends CoreEntity {
+  @Column('varchar', { name: 'nickname', length: 150 })
+  nickname: string;
+
+  @Column('varchar', { name: 'email', length: 100 })
   email: string;
-  kakaoAuthId: string;
-}
 
-export class User {
-  id: number;
-  nickName: string;
-  email: string;
-  kakaoAuthId: string;
-
-  static of(input: CreateUserInput) {
-    if (input.nickName.length < 1 || input.email.length < 1 || input.kakaoAuthId.length < 1) {
-      throw new InputError('잘못된 input');
-    }
-
-    const user = new User();
-    user.id = 1;
-    user.email = input.email;
-    user.nickName = input.nickName;
-    user.kakaoAuthId = input.kakaoAuthId;
-    return user;
-  }
+  @Column('varchar', { name: 'kakao_auth_id', length: 200, nullable: true })
+  kakao_auth_id: string;
 }
