@@ -35,7 +35,7 @@ export class Order {
     return order;
   }
 
-  canWriteReview() {
+  checkWriteReview() {
     const now = Date.now();
     return (
       this.status === ORDER_STATUS.DELIVERED &&

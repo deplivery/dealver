@@ -27,7 +27,7 @@ describe('ReviewService', () => {
     it('order가 리뷰를 쓸 수 없는 상태면 InputError를 던진다', async () => {
       const userId = 1;
       const input = { description: 'content', rating: 4, orderId: 1, title: 'title' };
-      const order = { canWriteReview: () => false } as Order;
+      const order = { checkWriteReview: () => false } as Order;
       const createReview = service.createReview({ userId, input, order });
       await expect(createReview).rejects.toThrow('cannot write review');
     });
@@ -35,7 +35,7 @@ describe('ReviewService', () => {
     it('order가 리뷰를 쓸 수 있는 상태면 리뷰를 생성한다', async () => {
       const userId = 1;
       const input = { description: 'content', rating: 4, orderId: 1, title: 'title' };
-      const order = { canWriteReview: () => true } as Order;
+      const order = { checkWriteReview: () => true } as Order;
       const review = { id: 1 };
       repository.useValue.save.mockImplementation(async () => review as Review);
       const result = await service.createReview({ userId, input, order });
