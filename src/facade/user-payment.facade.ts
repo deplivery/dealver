@@ -10,6 +10,8 @@ import { v4 } from 'uuid';
 import { CacheService } from '../interface/cache.interface';
 import { ORDER_STATUS } from '../entities/order.entity';
 import { OrderDetailService } from '../services/order-detail.service';
+import { RedisService } from '../infra/redis.service';
+import { logger } from '../shared/service/logger.service';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 
@@ -21,7 +23,7 @@ export class UserPaymentFacade {
     private readonly orderDetailService: OrderDetailService,
     private readonly userService: UserService,
     private readonly productService: ProductService,
-    private readonly cacheService: CacheService,
+    private readonly cacheService: RedisService,
   ) {}
 
   async registerUserPayment(userId: number, paymentType: PAYMENT_TYPE, productCounts: ProductCount[]): Promise<string> {
@@ -42,17 +44,27 @@ export class UserPaymentFacade {
   }
 
   /**
-   * 카카오페이 결제가 완료되면 Redis에서 가져온 order 정보로 주문 진행
+   * 1. 카카오페이 결제가 완료되면 Redis 에서 가져온 order 정보로 주문 진행
+   * 2. productCounts 가 유효하지 않은 등의 배달이 불가한 상황이라면 사장님이 취소할 것이기 때문에 따로 추가 유효성 체크는 하지 않는다.
    *
-   * @param {string} key
+   * @param key
+   * @return Promise<OrderDetail[]>
    */
   async processUserPayment(key: string): Promise<OrderDetail[]> {
     const rawValue = await this.cacheService.getValue(key);
-    const parsedValue = JSON.parse(rawValue) as { user; info: ProductCount[] };
-    const user = parsedValue.user;
-    const productCounts = parsedValue.info;
+    if (!rawValue) {
+      throw new RequestFailError('유효하지 않은 주문 키입니다.');
+    }
 
-    const order = await this.orderService.createOrder({ userId: user.id, status: ORDER_STATUS.PAID });
+    const parsedValue = JSON.parse(rawValue) as { user; info: ProductCount[] };
+    const user = parsedValue?.user;
+    const productCounts = parsedValue?.info;
+
+    const order = await this.orderService.createOrder({ userId: user?.id, status: ORDER_STATUS.PAID });
+
+    if (!order) {
+      throw new RequestFailError('유효하지 않은 주문입니다.');
+    }
 
     return Promise.all(
       productCounts.map(async (productCount) =>
