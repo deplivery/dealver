@@ -22,10 +22,13 @@ export class ReviewService {
     return this.repository.save(review);
   }
 
-  async updateReview(reviewId: number, input: UpdateReview): Promise<Review> {
-    const review = await this.repository.findOne({ where: { id: reviewId } });
+  async updateReview(userId: number, input: UpdateReview): Promise<Review> {
+    const review = await this.repository.findOne({ where: { id: input.reviewId } });
     if (!review) {
       throw new InputError('cannot find review');
+    }
+    if (!review.isMine(userId)) {
+      throw new InputError('cannot update review');
     }
     review.change(input);
     return this.repository.save(review);

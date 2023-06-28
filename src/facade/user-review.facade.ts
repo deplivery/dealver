@@ -13,6 +13,7 @@ export interface UpdateReview {
   title?: string;
   description?: string;
   rating?: number;
+  reviewId: number;
 }
 
 @Injectable()

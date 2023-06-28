@@ -41,4 +41,8 @@ export class Review {
       this.rating = input.rating;
     }
   }
+
+  isMine(userId: number) {
+    return this.userId === userId;
+  }
 }
