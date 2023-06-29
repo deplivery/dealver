@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InputError } from '../shared/error/input.error';
 import { HttpService } from '@nestjs/axios';
 import * as Jwt from 'jsonwebtoken';
-import { OneWeeks } from '../shared/service/date-format.service';
+import { OneHour, OneWeeks } from '../shared/service/date-format.service';
 import { ConfigService } from '@nestjs/config';
 import { catchError, firstValueFrom } from 'rxjs';
 
@@ -69,10 +69,20 @@ export class AuthService {
   async makeAccessToken(id: number) {
     const payload = { id: id };
     const options: Jwt.SignOptions = {
-      expiresIn: OneWeeks,
+      expiresIn: OneHour,
       issuer: 'dealver',
       algorithm: 'HS256',
     };
     return Jwt.sign(payload, this.configService.get('JWT_ACCESS_TOKEN_SECRET'), options);
+  }
+
+  async makeAccessRefreshToken(id: number) {
+    const payload = { id: id };
+    const options: Jwt.SignOptions = {
+      expiresIn: OneWeeks,
+      issuer: 'dealver',
+      algorithm: 'HS256',
+    };
+    return Jwt.sign(payload, this.configService.get('JWT_REFRESH_TOKEN_SECRET'), options);
   }
 }
