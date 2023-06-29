@@ -45,14 +45,6 @@ export class UsersController {
 
     return res.status(HttpStatus.OK).json(user);
   }
-
-  @ApiCreatedResponse({ description: 'success' })
-  @ApiOperation({ summary: '유저 하나 가져오기' })
-  @Get(':id')
-  async findOneUser(@Param('id', ParseIntPipe) id: number) {
-    return await this.userService.getUserById(id);
-  }
-
   @ApiCreatedResponse({ description: 'success' })
   @ApiOperation({ summary: '내 정보 가져오기' })
   @UseGuards(UserAuthGuard)
@@ -65,6 +57,18 @@ export class UsersController {
 
   @ApiCreatedResponse({ description: 'success' })
   @ApiOperation({ summary: '유저 하나 가져오기' })
-  @Post('token')
-  async createTokenByRefreshToken() {}
+  @UseGuards(UserAuthGuard)
+  @Post('refreshToken')
+  async createTokenByRefreshToken(
+    @Req() req: Request,
+  ) {
+
+  }
+
+  @ApiCreatedResponse({ description: 'success' })
+  @ApiOperation({ summary: '유저 하나 가져오기' })
+  @Get(':id')
+  async findOneUser(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.getUserById(id);
+  }
 }

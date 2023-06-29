@@ -12,7 +12,7 @@ export class UserAuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
 
-    const accessToken = req.cookies['access-token'];
+    const accessToken = req.cookies.accessToken;
 
     let userId: number | null;
 
@@ -23,7 +23,6 @@ export class UserAuthGuard implements CanActivate {
       res.cookie('accessToken', null, {
         expires: new Date(new Date().getTime() - 1),
         httpOnly: true,
-        secure: true,
       });
       throw new HttpException('check your authorization', HttpStatus.UNAUTHORIZED);
     }
@@ -31,7 +30,6 @@ export class UserAuthGuard implements CanActivate {
       res.cookie('accessToken', null, {
         expires: new Date(new Date().getTime() - 1),
         httpOnly: true,
-        secure: true,
       });
       throw new HttpException('check user decodeUser data', HttpStatus.UNAUTHORIZED);
     }
@@ -41,7 +39,6 @@ export class UserAuthGuard implements CanActivate {
       res.cookie('accessToken', null, {
         expires: new Date(new Date().getTime() - 1),
         httpOnly: true,
-        secure: true,
       });
       throw new HttpException('does not found users.', HttpStatus.UNAUTHORIZED);
     }
@@ -53,7 +50,44 @@ export class UserAuthGuard implements CanActivate {
 
 @Injectable()
 export class UserRefreshAuthGuard implements CanActivate {
-  constructor(private readonly configService: ConfigService, private readonly userService: UserService) {} canActivate(context: ExecutionContext) {
-    return undefined;
+  constructor(private readonly configService: ConfigService, private readonly userService: UserService) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    const res = context.switchToHttp().getResponse();
+
+    const refreshToken = req.cookies.refreshToken;
+    let userId: number | null;
+    try {
+      const decodedUserJwt: any = Jwt.verify(refreshToken, this.configService.get('JWT_REFRESH_TOKEN_SECRET'));
+      userId = decodedUserJwt?.id;
+    } catch (jwtErr) {
+      res.cookie('refreshToken', null, {
+        expires: new Date(new Date().getTime() - 1),
+        httpOnly: true,
+      });
+      throw new HttpException('check your authorization', HttpStatus.UNAUTHORIZED);
+    }
+
+    if (!userId) {
+      res.cookie('refreshToken', null, {
+        expires: new Date(new Date().getTime() - 1),
+        httpOnly: true,
+      });
+      throw new HttpException('check user decodeUser data', HttpStatus.UNAUTHORIZED);
+    }
+
+    const userData = await this.userService.getUserById(userId);
+    if (!userData) {
+      res.cookie('refreshToken', null, {
+        expires: new Date(new Date().getTime() - 1),
+        httpOnly: true,
+      });
+      throw new HttpException('does not found users.', HttpStatus.UNAUTHORIZED);
+    }
+
+    // TODO: cache 처리 해야함
+
+    req.user = userData;
+    return true;
   }
 }
