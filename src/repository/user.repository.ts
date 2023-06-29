@@ -1,17 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
+import { CustomRepository } from '../shared/typeorm-ex.decorator';
+import { Repository } from 'typeorm';
+import { InputError } from '../shared/error/input.error';
 
-@Injectable()
-export class UserRepository {
-  async createUser(user: User): Promise<User> {
-    return new User();
-  }
-
-  async getUser(userId: number): Promise<User> {
-    return new User();
-  }
-
-  async updateUser(user: User): Promise<User> {
-    return user;
-  }
-}
+@CustomRepository({ entity: UserEntity })
+export class UserRepository extends Repository<UserEntity> {}
