@@ -18,11 +18,7 @@ describe('UserService', () => {
 
     const app: TestingModule = await Test.createTestingModule({
       imports: [HttpModule, ConfigModule],
-      providers: [
-        UserService,
-        authService,
-        userRepository,
-      ],
+      providers: [UserService, authService, userRepository],
     }).compile();
     await app.init();
     userService = app.get<UserService>(UserService);
@@ -84,6 +80,30 @@ describe('UserService', () => {
       expect(result.user.email).toEqual(newUser.email);
       expect(result.user.kakao_auth_id).toEqual(newUser.kakao_auth_id);
       expect(result.user.nickname).toEqual(newUser.nickname);
+    });
+  });
+
+  describe('findOneUser()', () => {
+    it('유저가 존재하지 않습니다', async () => {
+      const userId = 1;
+      userRepository.useValue.findOne.mockResolvedValue(undefined);
+
+      await expect(userService.findOneUser(userId)).rejects.toThrow();
+    });
+
+    it('유저가 존재합니다.', async () => {
+      const userId = 1;
+      const newUser = new UserEntity();
+      newUser.id = userId;
+      newUser.email = 'test@gmail.com';
+      newUser.nickname = 'test';
+      newUser.kakao_auth_id = '123456789';
+
+      userRepository.useValue.findOne.mockResolvedValue(newUser);
+
+      const result = await userService.findOneUser(userId);
+      console.log(result);
+      expect(result).toEqual(newUser);
     });
   });
 });

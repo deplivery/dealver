@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 export class UserService {
   constructor(private readonly userRepository: UserRepository, private readonly authService: AuthService) {}
 
-  async getUser(id: number): Promise<UserEntity> {
+  async getUserById(id: number): Promise<UserEntity> {
     const findUser = await this.userRepository.findOne({ where: { id } });
     if (!findUser) {
       throw new InputError('not found User');
