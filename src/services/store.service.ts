@@ -3,7 +3,7 @@ import { StoreRepository } from '../repository/store.repository';
 import { PermissionError } from '../shared/error/permission.error';
 import { InputError } from '../shared/error/input.error';
 import { Store } from '../entities/store.entity';
-import { StoreConfirm } from '../entities/storeConfirm.entity';
+import { StoreConfirm } from '../entities/store-confirm.entity';
 
 export interface CreateStoreInput {
   name: string;
