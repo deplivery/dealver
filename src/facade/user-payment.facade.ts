@@ -9,7 +9,7 @@ import { RequestFailError } from '../shared/error/request-fail.error';
 import { v4 } from 'uuid';
 import { ORDER_STATUS } from '../entities/order.entity';
 import { OrderDetailService } from '../services/order-detail.service';
-import { RedisService } from '../infra/redis.service';
+import { CacheService } from '../interface/cache.interface';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 
@@ -21,7 +21,7 @@ export class UserPaymentFacade {
     private readonly orderDetailService: OrderDetailService,
     private readonly userService: UserService,
     private readonly productService: ProductService,
-    private readonly cacheService: RedisService,
+    private readonly cacheService: CacheService,
   ) {}
 
   async registerUserPayment(userId: number, paymentType: PAYMENT_TYPE, productCounts: ProductCount[]): Promise<string> {
@@ -58,8 +58,8 @@ export class UserPaymentFacade {
     const user = parsedValue?.user;
     const productCounts = parsedValue?.info;
 
+    // TODO: createOrder 와 createOrderDetail 묶어서 메소드 Extract 필요. 현재 테스트 코드 다시 짜기 두려워서 넘김.
     const order = await this.orderService.createOrder({ userId: user?.id, status: ORDER_STATUS.PAID });
-
     if (!order) {
       throw new RequestFailError('유효하지 않은 주문입니다.');
     }
@@ -73,5 +73,6 @@ export class UserPaymentFacade {
         }),
       ),
     );
+    // TODO: 이후 사장님에게 알람 보냄.
   }
 }
