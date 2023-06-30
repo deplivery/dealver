@@ -7,11 +7,9 @@ import { ProductService } from '../services/product.service';
 import { OrderDetail } from '../entities/order-detail.entity';
 import { RequestFailError } from '../shared/error/request-fail.error';
 import { v4 } from 'uuid';
-import { CacheService } from '../interface/cache.interface';
 import { ORDER_STATUS } from '../entities/order.entity';
 import { OrderDetailService } from '../services/order-detail.service';
 import { RedisService } from '../infra/redis.service';
-import { logger } from '../shared/service/logger.service';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 
