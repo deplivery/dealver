@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Store } from '../entities/store.entity';
-import { StoreConfirm } from '../entities/storeConfirm.entity';
+import { StoreConfirm } from '../entities/store-confirm.entity';
 
 @Injectable()
 export class StoreRepository {

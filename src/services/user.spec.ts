@@ -1,7 +1,7 @@
 import { UserService } from './user.service';
 import { UserRepository } from '../repository/user.repository';
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../entities/user';
+import { User } from '../entities/user.entity';
 import { AuthService } from './auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
