@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing';
 import { ProductCount, UserPaymentFacade } from './user-payment.facade';
 import { ProductService } from '../services/product.service';
 import { OrderDetailService } from '../services/order-detail.service';
-import { User } from '../entities/user';
+import { User } from '../entities/user.entity';
 import { PAYMENT_TYPE } from '../entities/payment.entity';
 import { RequestFailError } from '../shared/error/request-fail.error';
 import { RedisService } from '../infra/redis.service';
