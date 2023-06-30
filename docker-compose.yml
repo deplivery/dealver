@@ -1,0 +1,44 @@
+version: "3"
+services:
+  nestjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - dev.env
+    volumes:
+      - .:/app
+    ports:
+      - "${HOST:-8000}:${HOST:-8000}"
+    depends_on:
+      - redis
+#      - kafka
+
+  mysql:
+    image: mysql:latest
+    container_name: dealver_mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - mysql.env
+    volumes:
+      - db_data:/var/lib/mysql
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:latest
+  #   environment:
+  #     - ZOOKEEPER_CLIENT_PORT=2181
+  # kafka:
+  #   image: confluentinc/cp-kafka:latest
+  #   ports:
+  #     - "29092:29092"
+  #   depends_on:
+  #     - zookeeper
+  #   environment:
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
+volumes:
+  db_data:
