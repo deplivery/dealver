@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { OrderDetailService } from '../services/order-detail.service';
+import { InputError } from '../shared/error/input.error';
+import { ORDER_STATUS } from '../entities/order.entity';
 
 interface CreateOrderInputDto {
   userId: number;
@@ -28,5 +30,13 @@ export class UserOrderFacade {
       })),
     );
     return order;
+  }
+
+  async deleteOrder(orderId: number) {
+    const order = await this.orderService.getOrder(orderId);
+    if (!order) {
+      throw new InputError('Order not found');
+    }
+    return this.orderService.changeOrderStatus(order, ORDER_STATUS.CANCELED);
   }
 }

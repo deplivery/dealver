@@ -36,11 +36,33 @@ export class Order {
     return order;
   }
 
+  // TODO : 상태패턴으로 변경
   toConfirm() {
     if (this.status !== ORDER_STATUS.PAID) {
       throw new InputError('잘못된 Order 변경입니다.');
     }
     this.status = ORDER_STATUS.PENDING;
+  }
+
+  toCancel() {
+    if (this.status === ORDER_STATUS.CANCELED) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.CANCELED;
+  }
+
+  toShipped() {
+    if (this.status !== ORDER_STATUS.PENDING) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.SHIPPED;
+  }
+
+  toFinishDelivery() {
+    if (this.status !== ORDER_STATUS.PROCESSING) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.DELIVERED;
   }
 
   checkWriteReview() {

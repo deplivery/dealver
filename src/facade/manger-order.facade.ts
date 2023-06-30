@@ -16,4 +16,14 @@ export class ManagerOrderFacade {
     //TODO: send notification to user
     return this.repository.save(order);
   }
+
+  async startDelivery(input: { id: number }): Promise<Order> {
+    const order = await this.repository.getOrderById(input.id);
+    if (!order) {
+      throw new InputError('Order not found');
+    }
+    order.toShipped();
+    //TODO: send notification to user
+    return this.repository.save(order);
+  }
 }
