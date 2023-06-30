@@ -10,7 +10,7 @@ import { User } from '../entities/user.entity';
 import { PAYMENT_TYPE } from '../entities/payment.entity';
 import { RequestFailError } from '../shared/error/request-fail.error';
 import { RedisService } from '../infra/redis.service';
-import { ORDER_STATUS } from '../entities/order.entity';
+import { Order, ORDER_STATUS } from '../entities/order.entity';
 import { OrderDetail } from '../entities/order-detail.entity';
 
 describe('order-payment', () => {
@@ -128,7 +128,7 @@ describe('order-payment', () => {
 
     it('정상적인 주문 상황일 때, OrderDetail[]을 리턴함', async () => {
       cacheService.useValue.getValue.mockResolvedValue(rawValue);
-      orderService.useValue.createOrder.mockResolvedValue(order);
+      orderService.useValue.createOrder.mockResolvedValue(order as Order);
       orderDetailService.useValue.createOrderDetail.mockResolvedValue(Promise.resolve(orderDetail));
 
       const result = await userPaymentFacade.processUserPayment(key);

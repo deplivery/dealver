@@ -15,7 +15,7 @@ export class ReviewService {
 
   async createReview(data: { userId: number; order: Order; input: CreateReview }) {
     const { userId, input, order } = data;
-    if (!order.canWriteReview()) {
+    if (!order.checkWriteReview()) {
       throw new InputError('cannot write review');
     }
     const review = Review.of({ userId, ...input });

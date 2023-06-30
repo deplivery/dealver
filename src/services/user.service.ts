@@ -7,7 +7,6 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository, private readonly authService: AuthService) {}
-
   async getUserById(id: number): Promise<UserEntity> {
     const findUser = await this.userRepository.findOne({ where: { id } });
     if (!findUser) {

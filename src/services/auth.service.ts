@@ -5,6 +5,9 @@ import * as Jwt from 'jsonwebtoken';
 import { OneHour, OneWeeks } from '../shared/service/date-format.service';
 import { ConfigService } from '@nestjs/config';
 import { catchError, firstValueFrom } from 'rxjs';
+import { UserService } from './user.service';
+import { RedisService } from 'src/infra/redis.service';
+import { AxiosError } from 'axios';
 
 export interface IKakaoUserData {
   id: string;
@@ -24,11 +27,13 @@ export interface IKakaoUserData {
   };
 }
 
-class AxiosError {}
-
 @Injectable()
 export class AuthService {
-  constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
+  ) {}
 
   async kakaoCallback(tokenString: string): Promise<any> {
     const getProfileUrl = 'https://kapi.kakao.com/v2/user/me';
@@ -74,6 +79,18 @@ export class AuthService {
       algorithm: 'HS256',
     };
     return Jwt.sign(payload, this.configService.get('JWT_ACCESS_TOKEN_SECRET'), options);
+  }
+
+  async makeAccessTokenByRefreshToken(refreshToken: string) {
+    const decodedRefreshToken: any = Jwt.verify(refreshToken, this.configService.get('JWT_REFRESH_TOKEN_SECRET'));
+    const userId = decodedRefreshToken?.sub;
+    // redis.service.ts 에서 레디스 set 을한다.
+    const redisRefreshToken = await this.redisService.getValue(String(userId));
+    if (redisRefreshToken !== refreshToken) {
+      throw new InputError('invalid refresh token');
+    }
+
+    return await this.makeAccessToken(userId);
   }
 
   async makeAccessRefreshToken(id: number) {

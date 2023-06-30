@@ -10,3 +10,9 @@ export class kakaoSignUpRequestDto {
   })
   tokenString: string;
 }
+
+export class RefreshTokenRequestDto {
+  @IsNotEmpty()
+  @IsString()
+  refreshToken: string;
+}

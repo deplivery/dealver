@@ -5,10 +5,11 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { UsersController } from '../controller/user.controller';
 import { HttpModule } from '@nestjs/axios';
+import { RedisService } from '../infra/redis.service';
 
 @Module({
   imports: [TypeOrmExModule.forCustomRepository([UserRepository]), HttpModule],
-  providers: [UserService, UserRepository, AuthService],
+  providers: [UserService, AuthService, RedisService],
   controllers: [UsersController],
   exports: [],
 })

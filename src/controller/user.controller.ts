@@ -14,8 +14,11 @@ import { Get } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { UserAuthGuard } from '../shared/auth/guard/user-auth.guard';
 import { Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { OneHour, OneWeeks } from '../shared/service/date-format.service';
+import { AuthService } from '../services/auth.service';
+import { InputError } from '../shared/error/input.error';
+import { RedisService } from '../infra/redis.service';
 
 @ApiInternalServerErrorResponse({
   description: 'server error',
@@ -25,7 +28,11 @@ import { OneHour, OneWeeks } from '../shared/service/date-format.service';
 @ApiTags('USERS')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+    private readonly redisService: RedisService,
+  ) {}
 
   @ApiCreatedResponse({ description: 'success' })
   @ApiOperation({ summary: '카카오 회원가입' })
@@ -33,6 +40,7 @@ export class UsersController {
   async signUp(@Body() body: kakaoSignUpRequestDto, @Res() res: Response) {
     const { tokenString } = body;
     const { user, token, refreshtoken } = await this.userService.createUser(tokenString);
+    await this.redisService.setValue(refreshtoken, tokenString, OneWeeks);
     res.cookie('accessToken', token, {
       httpOnly: true,
       maxAge: OneHour,
@@ -59,10 +67,17 @@ export class UsersController {
   @ApiOperation({ summary: '유저 하나 가져오기' })
   @UseGuards(UserAuthGuard)
   @Post('refreshToken')
-  async createTokenByRefreshToken(
-    @Req() req: Request,
-  ) {
-
+  async createTokenByRefreshToken(@Req() req: Request, @Res() res: Response) {
+    try {
+      const refreshToken = req.cookies.refreshToken;
+      const responseNewTokenString = await this.authService.makeAccessTokenByRefreshToken(refreshToken);
+      res.cookie('accessToken', responseNewTokenString, {
+        httpOnly: true,
+      });
+      return res.status(HttpStatus.OK).json(responseNewTokenString);
+    } catch (e) {
+      throw new InputError('Invalid refresh token');
+    }
   }
 
   @ApiCreatedResponse({ description: 'success' })

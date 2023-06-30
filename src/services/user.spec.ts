@@ -1,7 +1,7 @@
 import { UserService } from './user.service';
 import { UserRepository } from '../repository/user.repository';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserEntity } from '../entities/user.entity';
+import { User } from '../entities/user.entity';
 import { AuthService } from './auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
@@ -34,7 +34,7 @@ describe('UserService', () => {
 
     it('하나의 유저를 찾았을때 유저 정보를 가져온다.', async () => {
       const userId = 1;
-      const newUser = new UserEntity();
+      const newUser = new User();
       newUser.id = 1;
       newUser.email = 'ash@gmail.com';
       newUser.nickname = 'ash';
@@ -67,7 +67,7 @@ describe('UserService', () => {
         },
       };
 
-      const newUser = new UserEntity();
+      const newUser = new User();
       newUser.email = kakaoUserData.kakao_account.email;
       newUser.nickname = kakaoUserData.properties.nickname;
       newUser.kakao_auth_id = kakaoUserData.id;
