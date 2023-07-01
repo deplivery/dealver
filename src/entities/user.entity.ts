@@ -9,6 +9,14 @@ export class User extends CoreEntity {
   @Column('varchar', { name: 'email', length: 100 })
   email: string;
 
-  @Column('varchar', { name: 'kakao_auth_id', length: 200, nullable: true })
-  kakao_auth_id: string;
+  @Column('varchar', { name: 'auth_id', length: 200, nullable: true })
+  authId: string;
+
+  @Column('varchar', { name: 'auth_type', length: 16, nullable: true })
+  authType: AuthType;
+}
+
+export enum AuthType {
+  KAKAO = 'Kakao',
+  GOOGLE = 'Google',
 }
