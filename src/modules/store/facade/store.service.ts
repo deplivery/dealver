@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { StoreRepository } from '../repository/store.repository';
-import { PermissionError } from '../shared/error/permission.error';
-import { InputError } from '../shared/error/input.error';
-import { Store } from '../entities/store.entity';
-import { StoreConfirm } from '../entities/store-confirm.entity';
+import { StoreRepository } from '../infra/db/store.repository';
+import { Store } from '../domain/entity/store.entity';
+import { InputError } from '../../../shared/error/input.error';
+import { StoreConfirm } from '../domain/entity/store-confirm.entity';
+import { PermissionError } from '../../../shared/error/permission.error';
 
 export interface CreateStoreInput {
   name: string;

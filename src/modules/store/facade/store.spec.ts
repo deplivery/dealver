@@ -1,10 +1,10 @@
-import { StoreRepository } from './../repository/store.repository';
+import { StoreRepository } from '../infra/db/store.repository';
 import { Test } from '@nestjs/testing';
 import { StoreService } from './store.service';
-import { MockedValueProvider, mockProvider } from '../../test/util/mock';
-import { Store } from '../entities/store.entity';
-import { PermissionError } from '../shared/error/permission.error';
-import { InputError } from '../shared/error/input.error';
+import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
+import { PermissionError } from '../../../shared/error/permission.error';
+import { InputError } from '../../../shared/error/input.error';
+import { Store } from '../domain/entity/store.entity';
 
 describe('store', () => {
   let service: StoreService;

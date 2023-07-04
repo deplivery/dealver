@@ -1,5 +1,5 @@
-import { CreateStoreInput } from 'src/services/store.service';
-import { InputError } from '../shared/error/input.error';
+import { InputError } from '../../../../shared/error/input.error';
+import { CreateStoreInput } from '../../facade/store.service';
 
 export class Store {
   name: string;
