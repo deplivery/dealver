@@ -1,4 +1,4 @@
-import { CustomRepository } from '../../../../shared/typeorm-ex.decorator';
+import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
 import { Review } from '../../domain/entity/review.entity';
 import { Repository } from 'typeorm';
 

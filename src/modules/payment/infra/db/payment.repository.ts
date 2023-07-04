@@ -1,5 +1,5 @@
 import { Payment } from '../../domain/entity/payment.entity';
-import { CustomRepository } from '../../../../shared/typeorm-ex.decorator';
+import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
 import { FindManyOptions, getManager, In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../../../order/domain/entity/product.entity';
 

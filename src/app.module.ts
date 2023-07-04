@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/typeorm.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './modules/user.module';
 import { HttpModule } from '@nestjs/axios';
+import { UsersModule } from './modules/user/user.module';
 
 @Module({
   imports: [

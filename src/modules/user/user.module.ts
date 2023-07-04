@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { TypeOrmExModule } from '../../shared/typeorm-ex.module';
+import { TypeOrmExModule } from '../../shared/orm/typeorm-ex.module';
 import { UserRepository } from './infra/db/user.repository';
 import { UsersController } from './infra/http/user.controller';
 import { UserService } from './facade/user.service';
