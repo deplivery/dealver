@@ -8,7 +8,7 @@ import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
 import { RequestFailError } from '../../../shared/error/request-fail.error';
 import { v4 } from 'uuid';
 import { OrderDetailService } from '../../order/facade/order-detail.service';
-import { CacheService } from '../../../interface/cache.interface';
+import { CacheService } from '../../cache/infra/cache.interface';
 import { ORDER_STATUS } from '../../order/domain/entity/order.entity';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;

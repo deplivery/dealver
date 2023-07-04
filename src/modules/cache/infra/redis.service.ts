@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { InputError } from '../shared/error/input.error';
-import { CacheService } from '../interface/cache.interface';
+import { InputError } from '../../../shared/error/input.error';
+import { CacheService } from './cache.interface';
 
 @Injectable()
 export class RedisService implements CacheService {

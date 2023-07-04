@@ -1,4 +1,4 @@
-import { RedisService } from './redis.service';
+import { RedisService } from '../modules/redis/redis.service';
 import { v4 } from 'uuid';
 
 describe('Redis 테스트. 실제 레디스를 갖다오므로 레디스 연결이 되어있지 않다면 실패합니다.', () => {
