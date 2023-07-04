@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReview, UpdateReview } from '../../../facade/user-review.facade';
+import { CreateReview, UpdateReview } from './user-review.facade';
 import { ReviewRepository } from '../infra/db/review.repository';
 import { Review } from '../domain/entity/review.entity';
 import { InputError } from '../../../shared/error/input.error';

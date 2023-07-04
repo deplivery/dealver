@@ -1,5 +1,5 @@
 import { UserService } from '../modules/user/facade/user.service';
-import { PaymentService } from '../services/payment.service';
+import { PaymentService } from '../modules/payment/facade/payment.service';
 import { OrderService } from '../modules/order/facade/order.service';
 import { MockedValueProvider, mockProvider } from '../../test/util/mock';
 import { Test } from '@nestjs/testing';
@@ -7,7 +7,7 @@ import { ProductCount, UserPaymentFacade } from './user-payment.facade';
 import { ProductService } from '../modules/order/facade/product.service';
 import { OrderDetailService } from '../modules/order/facade/order-detail.service';
 import { User } from '../modules/user/domain/entity/user.entity';
-import { PAYMENT_TYPE } from '../entities/payment.entity';
+import { PAYMENT_TYPE } from '../modules/payment/domain/entity/payment.entity';
 import { RequestFailError } from '../shared/error/request-fail.error';
 import { RedisService } from '../infra/redis.service';
 import { Order, ORDER_STATUS } from '../entities/order.entity';

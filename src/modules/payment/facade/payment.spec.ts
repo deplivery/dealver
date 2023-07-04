@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { MockedValueProvider, mockProvider } from '../../test/util/mock';
-import { PaymentRepository } from '../repository/payment.repository';
 import { PaymentService } from './payment.service';
+import { PaymentRepository } from '../infra/db/payment.repository';
+import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
 
 describe('payment', () => {
   let service: PaymentService;

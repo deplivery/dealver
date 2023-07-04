@@ -4,7 +4,7 @@ import { mockProvider } from '../../../../test/util/mock';
 import { ReviewRepository } from '../infra/db/review.repository';
 import { ReviewService } from './review.service';
 import { Review } from '../domain/entity/review.entity';
-import { UpdateReview } from '../../../facade/user-review.facade';
+import { UpdateReview } from './user-review.facade';
 import { Order } from '../domain/entity/order.entity';
 
 describe('ReviewService', () => {

@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { OrderService } from '../modules/order/facade/order.service';
-import { UserService } from '../modules/user/facade/user.service';
-import { PaymentService } from '../services/payment.service';
-import { PAYMENT_TYPE } from '../entities/payment.entity';
-import { ProductService } from '../modules/order/facade/product.service';
-import { OrderDetail } from '../modules/order/domain/entity/order-detail.entity';
-import { RequestFailError } from '../shared/error/request-fail.error';
+import { OrderService } from '../../order/facade/order.service';
+import { UserService } from '../../user/facade/user.service';
+import { PaymentService } from './payment.service';
+import { PAYMENT_TYPE } from '../domain/entity/payment.entity';
+import { ProductService } from '../../order/facade/product.service';
+import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
+import { RequestFailError } from '../../../shared/error/request-fail.error';
 import { v4 } from 'uuid';
-import { ORDER_STATUS } from '../entities/order.entity';
-import { OrderDetailService } from '../modules/order/facade/order-detail.service';
-import { CacheService } from '../interface/cache.interface';
+import { OrderDetailService } from '../../order/facade/order-detail.service';
+import { CacheService } from '../../../interface/cache.interface';
+import { ORDER_STATUS } from '../../order/domain/entity/order.entity';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 

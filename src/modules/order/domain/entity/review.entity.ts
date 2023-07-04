@@ -1,4 +1,4 @@
-import { CreateReview } from '../../../../facade/user-review.facade';
+import { CreateReview } from '../../facade/user-review.facade';
 import { InputError } from '../../../../shared/error/input.error';
 
 export class Review {

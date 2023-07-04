@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ProductRepository } from '../../../repository/product.repository';
+import { ProductRepository } from '../infra/db/product.repository';
 import { InputError } from '../../../shared/error/input.error';
 import { CreateProductInput, Product, PRODUCT_STATUS } from '../domain/entity/product.entity';
-import { ProductCount } from '../../../facade/user-payment.facade';
+import { ProductCount } from '../../payment/facade/user-payment.facade';
 
 @Injectable()
 export class ProductService {
