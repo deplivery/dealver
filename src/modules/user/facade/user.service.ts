@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../infra/db/user.repository';
 import { AuthType, User } from '../domain/entity/user.entity';
 import { InputError } from '../../../shared/error/input.error';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class UserService {

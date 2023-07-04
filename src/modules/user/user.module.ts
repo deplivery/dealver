@@ -4,7 +4,7 @@ import { TypeOrmExModule } from '../../shared/typeorm-ex.module';
 import { UserRepository } from './infra/db/user.repository';
 import { UsersController } from './infra/http/user.controller';
 import { UserService } from './facade/user.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Module({
   imports: [TypeOrmExModule.forCustomRepository([UserRepository]), HttpModule],

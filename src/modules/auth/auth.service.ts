@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InputError } from '../shared/error/input.error';
+import { InputError } from '../../shared/error/input.error';
 import { HttpService } from '@nestjs/axios';
 import * as Jwt from 'jsonwebtoken';
-import { OneHour, OneWeeks } from '../shared/service/date-format.service';
+import { OneHour, OneWeeks } from '../../shared/service/date-format.service';
 import { ConfigService } from '@nestjs/config';
 import { catchError, firstValueFrom } from 'rxjs';
 

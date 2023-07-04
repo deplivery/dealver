@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
 import { UserRepository } from '../infra/db/user.repository';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { User } from '../domain/entity/user.entity';
 
 describe('UserService', () => {
