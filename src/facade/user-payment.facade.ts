@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
-import { UserService } from '../services/user.service';
+import { UserService } from '../modules/user/facade/user.service';
 import { PaymentService } from '../services/payment.service';
 import { PAYMENT_TYPE } from '../entities/payment.entity';
 import { ProductService } from '../services/product.service';

@@ -1,4 +1,4 @@
-import { UserService } from '../services/user.service';
+import { UserService } from '../../facade/user.service';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -7,8 +7,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
-import { UndefinedToNullInterceptor } from '../shared/interceptors/undefined-to-null.interceptor';
-import { kakaoSignUpRequestDto } from './userControllerDto/userController.request.dto';
+import { UndefinedToNullInterceptor } from '../../../../shared/interceptors/undefined-to-null.interceptor';
+import { kakaoSignUpRequestDto } from './dto/userController.request.dto';
 
 @ApiInternalServerErrorResponse({
   description: 'server error',

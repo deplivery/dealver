@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../repository/user.repository';
-import { User } from '../entities/user.entity';
-import { InputError } from '../shared/error/input.error';
-import { AuthService } from './auth.service';
+import { UserRepository } from '../infra/db/user.repository';
+import { AuthType, User } from '../domain/entity/user.entity';
+import { InputError } from '../../../shared/error/input.error';
+import { AuthService } from '../../../services/auth.service';
 
 @Injectable()
 export class UserService {
@@ -18,13 +18,17 @@ export class UserService {
 
   async createUser(tokenString: string) {
     const kakaoUserData = await this.authService.kakaoCallback(tokenString);
-    const foundUser = await this.userRepository.findOne({ where: { kakao_auth_id: kakaoUserData.id } });
+    const foundUser = await this.userRepository.findOne({
+      where: { authId: kakaoUserData.id, authType: AuthType.KAKAO },
+    });
 
     if (!foundUser) {
       const newUser = new User();
       newUser.email = kakaoUserData.kakao_account.email;
       newUser.nickname = kakaoUserData.properties.nickname;
-      newUser.kakao_auth_id = kakaoUserData.id;
+      newUser.authId = kakaoUserData.id;
+      newUser.authType = AuthType.KAKAO;
+
       const responseCreatedUser = await this.userRepository.save(newUser);
       return {
         token: await this.authService.makeAccessToken(responseCreatedUser.id),

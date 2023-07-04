@@ -1,11 +1,11 @@
 import { UserService } from './user.service';
-import { UserRepository } from '../repository/user.repository';
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../entities/user.entity';
-import { AuthService } from './auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
-import { MockedValueProvider, mockProvider } from '../../test/util/mock';
+import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
+import { UserRepository } from '../infra/db/user.repository';
+import { AuthService } from '../../../services/auth.service';
+import { User } from '../domain/entity/user.entity';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -70,7 +70,7 @@ describe('UserService', () => {
       const newUser = new User();
       newUser.email = kakaoUserData.kakao_account.email;
       newUser.nickname = kakaoUserData.properties.nickname;
-      newUser.kakao_auth_id = kakaoUserData.id;
+      newUser.authId = kakaoUserData.id;
 
       authService.useValue.kakaoCallback.mockResolvedValue(kakaoUserData);
       userRepository.useValue.findOne.mockResolvedValue(undefined);
@@ -78,7 +78,7 @@ describe('UserService', () => {
 
       const result = await userService.createUser(tokenString);
       expect(result.user.email).toEqual(newUser.email);
-      expect(result.user.kakao_auth_id).toEqual(newUser.kakao_auth_id);
+      expect(result.user.authId).toEqual(newUser.authId);
       expect(result.user.nickname).toEqual(newUser.nickname);
     });
   });
