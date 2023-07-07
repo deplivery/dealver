@@ -10,6 +10,10 @@ export class OrderDetailService {
     return this.orderDetailRepository.createOrderDetail(OrderDetail.of(input));
   }
 
+  async createOrderDetails(input: CreateOrderDetailInput[]): Promise<OrderDetail[]> {
+    return Promise.all(input.map((orderDetail) => this.createOrderDetail(orderDetail)));
+  }
+
   async getOrderDetails(orderId: number): Promise<OrderDetail[]> {
     return this.orderDetailRepository.getOrderDetailsByOrderId(orderId);
   }

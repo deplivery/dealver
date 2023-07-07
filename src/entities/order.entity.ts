@@ -1,4 +1,5 @@
 import { InputError } from '../shared/error/input.error';
+import { OrderDetail } from './order-detail.entity';
 
 export enum ORDER_STATUS {
   PAID = 'Paid', // 주문의 초기 상태. 결제 완료 직후.
@@ -12,8 +13,7 @@ export enum ORDER_STATUS {
 
 export interface CreateOrderInput {
   userId: number;
-  productId?: number;
-  storeId?: number;
+  storeId: number;
   status: ORDER_STATUS;
 }
 
@@ -23,6 +23,7 @@ export class Order {
   storeId: number;
   status: ORDER_STATUS;
   createAt: Date;
+  detail: OrderDetail[];
 
   static of(input: CreateOrderInput) {
     if (input.userId < 1 || input.storeId < 1 || !input.status) {
@@ -33,6 +34,35 @@ export class Order {
     order.status = input.status;
     order.storeId = input.storeId;
     return order;
+  }
+
+  // TODO : 상태패턴으로 변경
+  toConfirm() {
+    if (this.status !== ORDER_STATUS.PAID) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.PENDING;
+  }
+
+  toCancel() {
+    if (this.status === ORDER_STATUS.CANCELED) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.CANCELED;
+  }
+
+  toShipped() {
+    if (this.status !== ORDER_STATUS.PENDING) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.SHIPPED;
+  }
+
+  toFinishDelivery() {
+    if (this.status !== ORDER_STATUS.PROCESSING) {
+      throw new InputError('잘못된 Order 변경입니다.');
+    }
+    this.status = ORDER_STATUS.DELIVERED;
   }
 
   checkWriteReview() {
