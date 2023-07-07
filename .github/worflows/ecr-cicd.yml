@@ -1,9 +1,9 @@
 name: ECR and S3 CI/CD
 
 on:
-  push:
-    branches:
-      - main
+  create:
+    tags:
+      - "*"
 
 jobs:
   build:
@@ -38,24 +38,26 @@ jobs:
           fi
         # 현재 이벤트가 태그 관련 이벤트이고 main 브랜치에서 발생한 경우에만 태그 값을 출력합니다.
 
-      - name: Build and push Docker image to ECR
+      - name: Generate image tag
+        id: generate_tag
         run: |
+          IMAGE_TAG=$(date +'%Y.%m.%d.%H%M%S')
           if [ -n "${{ steps.check_tag.outputs.tag }}" ]; then
-            $(aws ecr get-login --no-include-email --region <AWS_REGION>)
-            docker build -t <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }} .
-            docker push <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }}
-          else
-            echo "No tag found. Skipping CI/CD."
+            IMAGE_TAG="${{ steps.check_tag.outputs.tag }}-$IMAGE_TAG"
           fi
-        # 태그가 존재하는 경우 Docker 이미지를 빌드하고 ECR 리포지토리로 푸시합니다.
-        # 태그가 없는 경우 CI/CD 단계를 건너뜁니다.
+          echo "::set-output name=image_tag::$IMAGE_TAG"
+        # 현재 날짜 및 시간을 기반으로 이미지 태그를 생성합니다.
+        # main 브랜치에서 태그가 있으면 태그명과 현재 시간을 조합하여 태그를 생성합니다.
+
+      - name: Build Docker image
+        run: |
+          docker build -t <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }} .
+        # Docker 이미지를 빌드합니다.
 
       - name: Archive Docker image
         run: |
-          if [ -n "${{ steps.check_tag.outputs.tag }}" ]; then
-            docker save <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }} | gzip > image.tar.gz
-          fi
-        # 태그가 존재하는 경우 Docker 이미지를 아카이브하여 압축 파일로 저장합니다.
+          docker save <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }} | gzip > image.tar.gz
+        # Docker 이미지를 아카이브하여 압축 파일로 저장합니다.
 
       - name: Upload image to S3 bucket
         uses: aws-actions/upload-artifact@v2
@@ -64,3 +66,13 @@ jobs:
           path: image.tar.gz
         # 압축 파일 형태로 저장된 이미지를 S3 버킷에 업로드합니다.
 
+      - name: Push Docker image to ECR
+        run: |
+          if [ -n "${{ steps.generate_tag.outputs.image_tag }}" ]; then
+            $(aws ecr get-login --no-include-email --region <AWS_REGION>)
+            docker push <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }}
+          else
+            echo "No tag found. Skipping ECR push."
+          fi
+        # 이미지 태그가 존재하는 경우 ECR로 Docker 이미지를 푸시합니다.
+        # 이미지 태그가 없는 경우 ECR 푸시를 건너뜁니다.
