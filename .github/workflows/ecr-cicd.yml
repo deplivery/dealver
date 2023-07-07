@@ -1,0 +1,65 @@
+name: ECR and S3 CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        # 저장소를 체크아웃하여 GitHub Actions에서 사용할 수 있도록 준비합니다.
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+        # Node.js 환경을 설정합니다.
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: <AWS_REGION>
+        # AWS 자격 증명을 구성하여 AWS 서비스에 액세스할 수 있도록 설정합니다.
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]; then
+            echo "::set-output name=tag::${{ github.ref }}"
+          else
+            echo "::set-output name=tag::"
+          fi
+        # 현재 이벤트가 태그 관련 이벤트이고 main 브랜치에서 발생한 경우에만 태그 값을 출력합니다.
+
+      - name: Build and push Docker image to ECR
+        run: |
+          if [ -n "${{ steps.check_tag.outputs.tag }}" ]; then
+            $(aws ecr get-login --no-include-email --region <AWS_REGION>)
+            docker build -t <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }} .
+            docker push <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }}
+          else
+            echo "No tag found. Skipping CI/CD."
+          fi
+        # 태그가 존재하는 경우 Docker 이미지를 빌드하고 ECR 리포지토리로 푸시합니다.
+        # 태그가 없는 경우 CI/CD 단계를 건너뜁니다.
+
+      - name: Archive Docker image
+        run: |
+          if [ -n "${{ steps.check_tag.outputs.tag }}" ]; then
+            docker save <ECR_REPOSITORY_URI>:${{ steps.check_tag.outputs.tag }} | gzip > image.tar.gz
+          fi
+        # 태그가 존재하는 경우 Docker 이미지를 아카이브하여 압축 파일로 저장합니다.
+
+      - name: Upload image to S3 bucket
+        uses: aws-actions/upload-artifact@v2
+        with:
+          name: image
+          path: image.tar.gz
+        # 압축 파일 형태로 저장된 이미지를 S3 버킷에 업로드합니다.
