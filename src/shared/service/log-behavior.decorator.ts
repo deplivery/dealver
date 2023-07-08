@@ -7,7 +7,7 @@ export function LogBehavior(
       const originalMethod = descriptor.value;
 
       descriptor.value = function (...args: any[]) {
-        logWithLogger(this, propertyKey, args, options);
+        logAction(this, propertyKey, args, options);
         return originalMethod.apply(this, args);
       };
     } else if (methodNames && Array.isArray(methodNames)) {
@@ -15,7 +15,7 @@ export function LogBehavior(
         const originalMethod = target.prototype[methodName];
 
         target.prototype[methodName] = function (...args: any[]) {
-          logWithLogger(this, methodName, args, options);
+          logAction(this, methodName, args, options);
           return originalMethod.apply(this, args);
         };
       });
@@ -23,7 +23,7 @@ export function LogBehavior(
   };
 }
 
-function logWithLogger(
+function logAction(
   context: any,
   methodName: string,
   args: any[],
@@ -37,6 +37,7 @@ function logWithLogger(
     ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) &&
     console.log(messageData, contextData, args);
 
+  // todo: 로그 저장 혹은 cloudWatch 로그 전송 등 로직
   switch (methodName) {
     case 'error':
       break;
