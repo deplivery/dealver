@@ -1,6 +1,7 @@
-import { logger } from './logger.service';
-
-function LogBehavior(options?: { message?: string; context?: any; stack?: any }) {
+export function LogBehavior(
+  methodNames?: string | string[],
+  options?: { message?: string; context?: any; stack?: any },
+) {
   return function (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) {
     if (propertyKey && descriptor) {
       const originalMethod = descriptor.value;
@@ -9,9 +10,7 @@ function LogBehavior(options?: { message?: string; context?: any; stack?: any })
         logWithLogger(this, propertyKey, args, options);
         return originalMethod.apply(this, args);
       };
-    } else {
-      const methodNames: string[] = target;
-
+    } else if (methodNames && Array.isArray(methodNames)) {
       methodNames.forEach((methodName) => {
         const originalMethod = target.prototype[methodName];
 
@@ -35,21 +34,19 @@ function logWithLogger(
 
   switch (methodName) {
     case 'error':
-      logger.error(messageData, contextData, ...args);
+      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'log':
-      logger.log(messageData, contextData);
+      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'warn':
-      logger.warn(messageData, contextData);
+      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'debug':
-      logger.debug(messageData, contextData);
+      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'verbose':
-      logger.verbose(messageData, contextData);
-      break;
-    default:
+      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
   }
 }
