@@ -18,6 +18,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "sourceRoot": "/"
-  }
+    "paths": {
+      "@/*": ["src/*"],
+      "@/module/*": ["src/module/*"],
+      "@shared/*": ["src/shared/*"],
+      "@test/*": ["src/test/*"],
+      "@config/*": ["src/config/*"]
+    },
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "dist"]
 }
