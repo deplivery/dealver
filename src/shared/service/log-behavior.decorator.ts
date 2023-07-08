@@ -32,21 +32,21 @@ function logWithLogger(
   const messageData = options?.message;
   const contextData = options?.context || {};
 
+  // 테스트 수행을 위한 console.log
+  process.env.NODE_ENV === 'test' &&
+    ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) &&
+    console.log(messageData, contextData, args);
+
   switch (methodName) {
     case 'error':
-      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'log':
-      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'warn':
-      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'debug':
-      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
     case 'verbose':
-      process.env.NODE_ENV === 'test' && console.log(messageData, contextData, args);
       break;
   }
 }
