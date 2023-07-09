@@ -9,7 +9,7 @@ export default registerAs('typeorm', () => ({
   database: process.env.MYSQL_DATABASE,
   autoLoadEntities: true,
   charset: 'utf8mb4',
-  synchronize: false,
+  synchronize: process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'dev',
   logging: process.env.NODE_ENV === 'local',
 }));
 

@@ -18,5 +18,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-  }
+    "paths": {
+      "@/*": ["src/*"],
+      "@/modules/*": ["src/modules/*"],
+      "@shared/*": ["src/shared/*"],
+      "@test/*": ["src/test/*"],
+      "@config/*": ["src/config/*"]
+    },
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "dist"]
 }
