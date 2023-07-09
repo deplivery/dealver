@@ -1,6 +1,11 @@
 import { Column, Entity } from 'typeorm';
 import { CoreEntity } from '../../../../shared/orm/core.entity';
 
+export enum AuthType {
+  KAKAO = 'Kakao',
+  GOOGLE = 'Google',
+}
+
 @Entity({ name: 'users' })
 export class User extends CoreEntity {
   @Column('varchar', { name: 'nickname', length: 150 })
@@ -14,9 +19,4 @@ export class User extends CoreEntity {
 
   @Column('varchar', { name: 'auth_type', length: 16, nullable: true })
   authType: AuthType;
-}
-
-export enum AuthType {
-  KAKAO = 'Kakao',
-  GOOGLE = 'Google',
 }
