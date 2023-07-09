@@ -4,7 +4,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as process from 'process';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerSetting } from './shared/swagger-config';
-import passport from 'passport';
 import { logger } from './shared/service/logger.service';
 
 declare const module: any;
@@ -21,7 +20,6 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
-  app.use(passport.initialize());
 
   const port = process.env.HOST || 8000;
   const env = process.env.NODE_ENV;
