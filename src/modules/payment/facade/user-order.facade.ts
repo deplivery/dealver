@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { OrderService } from '../services/order.service';
-import { OrderDetailService } from '../services/order-detail.service';
-import { InputError } from '../shared/error/input.error';
-import { ORDER_STATUS } from '../entities/order.entity';
+import { OrderService } from '../../order/facade/order.service';
+import { OrderDetailService } from '../../order/facade/order-detail.service';
+import { InputError } from '@/shared/error/input.error';
+import { ORDER_STATUS } from '../../order/domain/entity/order.entity';
 
 interface CreateOrderInputDto {
   userId: number;

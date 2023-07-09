@@ -59,7 +59,8 @@ export class UserPaymentFacade {
     const productCounts = parsedValue?.info;
 
     // TODO: createOrder 와 createOrderDetail 묶어서 메소드 Extract 필요. 현재 테스트 코드 다시 짜기 두려워서 넘김.
-    const order = await this.orderService.createOrder({ userId: user?.id, status: ORDER_STATUS.PAID });
+    // TODO: storeId 수정
+    const order = await this.orderService.createOrder({ userId: user?.id, storeId: 1 });
     if (!order) {
       throw new RequestFailError('유효하지 않은 주문입니다.');
     }
