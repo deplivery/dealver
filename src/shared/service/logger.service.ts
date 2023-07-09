@@ -1,5 +1,7 @@
 import { loggerConfig } from '../../config/logger.config';
+import { LogBehavior } from './log-behavior.decorator';
 
+@LogBehavior(['error', 'log', 'warn'])
 class LoggerService {
   private static instance: LoggerService;
   private readonly logger;
@@ -15,7 +17,6 @@ class LoggerService {
     return LoggerService.instance;
   }
 
-  // TODO: 추후 로그 저장 (ex. ELK) 작업 필요
   error(message: string, context?: any, stack?: any) {
     this.logger.error({ message, stack, context });
   }
