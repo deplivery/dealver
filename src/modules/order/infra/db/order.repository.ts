@@ -1,6 +1,7 @@
-import { Order } from '../entities/order.entity';
+import { Injectable } from '@nestjs/common';
+import { Order } from '../../domain/entity/order.entity';
+import { CustomRepository } from '../../../../shared/typeorm-ex.decorator';
 import { Repository } from 'typeorm';
-import { CustomRepository } from '../shared/typeorm-ex.decorator';
 
 @CustomRepository({ entity: Order })
 export class OrderRepository extends Repository<Order> {

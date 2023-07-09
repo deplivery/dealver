@@ -1,5 +1,5 @@
 import { FindManyOptions, In, Repository } from 'typeorm';
-import { Product, PRODUCT_STATUS } from '../entities/product.entity';
+import { Product, PRODUCT_STATUS } from '../modules/order/domain/entity/product.entity';
 import { CustomRepository } from '../shared/typeorm-ex.decorator';
 
 @CustomRepository({ entity: Product })

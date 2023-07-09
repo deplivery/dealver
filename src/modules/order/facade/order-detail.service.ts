@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { OrderDetailRepository } from '../repository/order-detail.repository';
-import { CreateOrderDetailInput, OrderDetail } from '../entities/order-detail.entity';
+import { OrderDetailRepository } from '../infra/db/order-detail.repository';
+import { CreateOrderDetailInput, OrderDetail } from '../domain/entity/order-detail.entity';
 
 @Injectable()
 export class OrderDetailService {

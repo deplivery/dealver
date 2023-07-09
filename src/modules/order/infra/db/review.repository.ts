@@ -1,5 +1,5 @@
-import { CustomRepository } from '../shared/typeorm-ex.decorator';
-import { Review } from '../entities/review.entity';
+import { CustomRepository } from '../../../../shared/typeorm-ex.decorator';
+import { Review } from '../../domain/entity/review.entity';
 import { Repository } from 'typeorm';
 
 @CustomRepository({ entity: Review })

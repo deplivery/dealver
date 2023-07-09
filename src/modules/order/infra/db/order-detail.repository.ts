@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OrderDetail } from '../entities/order-detail.entity';
+import { OrderDetail } from '../../domain/entity/order-detail.entity';
 
 @Injectable()
 export class OrderDetailRepository {

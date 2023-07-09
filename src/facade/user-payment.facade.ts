@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { OrderService } from '../services/order.service';
+import { OrderService } from '../modules/order/facade/order.service';
 import { UserService } from '../modules/user/facade/user.service';
 import { PaymentService } from '../services/payment.service';
 import { PAYMENT_TYPE } from '../entities/payment.entity';
-import { ProductService } from '../services/product.service';
-import { OrderDetail } from '../entities/order-detail.entity';
+import { ProductService } from '../modules/order/facade/product.service';
+import { OrderDetail } from '../modules/order/domain/entity/order-detail.entity';
 import { RequestFailError } from '../shared/error/request-fail.error';
 import { v4 } from 'uuid';
 import { ORDER_STATUS } from '../entities/order.entity';
-import { OrderDetailService } from '../services/order-detail.service';
+import { OrderDetailService } from '../modules/order/facade/order-detail.service';
 import { CacheService } from '../interface/cache.interface';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;

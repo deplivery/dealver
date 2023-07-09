@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReview, UpdateReview } from '../facade/user-review.facade';
-import { ReviewRepository } from '../repository/review.repository';
-import { Review } from '../entities/review.entity';
-import { Order } from '../entities/order.entity';
-import { InputError } from '../shared/error/input.error';
+import { CreateReview, UpdateReview } from '../../../facade/user-review.facade';
+import { ReviewRepository } from '../infra/db/review.repository';
+import { Review } from '../domain/entity/review.entity';
+import { InputError } from '../../../shared/error/input.error';
+import { Order } from '../domain/entity/order.entity';
 
 @Injectable()
 export class ReviewService {
@@ -15,7 +15,7 @@ export class ReviewService {
 
   async createReview(data: { userId: number; order: Order; input: CreateReview }) {
     const { userId, input, order } = data;
-    if (!order.canWriteReview()) {
+    if (!order.checkWriteReview()) {
       throw new InputError('cannot write review');
     }
     const review = Review.of({ userId, ...input });

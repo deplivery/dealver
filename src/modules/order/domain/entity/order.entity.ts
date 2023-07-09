@@ -1,4 +1,4 @@
-import { InputError } from '../shared/error/input.error';
+import { InputError } from '../../../../shared/error/input.error';
 import { OrderDetail } from './order-detail.entity';
 
 export enum ORDER_STATUS {

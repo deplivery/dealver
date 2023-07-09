@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { MockedValueProvider, mockProvider } from '../../test/util/mock';
-import { OrderRepository } from '../repository/order.repository';
+import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
+import { OrderRepository } from '../../../repository/order.repository';
 import { OrderService } from './order.service';
 
 describe('order', () => {

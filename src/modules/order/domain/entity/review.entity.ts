@@ -1,5 +1,5 @@
-import { CreateReview } from '../facade/user-review.facade';
-import { InputError } from '../shared/error/input.error';
+import { CreateReview } from '../../../../facade/user-review.facade';
+import { InputError } from '../../../../shared/error/input.error';
 
 export class Review {
   id: number;

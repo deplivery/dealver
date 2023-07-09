@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ReviewService } from '../services/review.service';
-import { OrderService } from '../services/order.service';
+import { ReviewService } from '../modules/order/facade/review.service';
+import { OrderService } from '../modules/order/facade/order.service';
 
 export interface CreateReview {
   title: string;
