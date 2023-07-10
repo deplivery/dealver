@@ -8,6 +8,8 @@ import { AppService } from './app.service';
 import { HttpModule } from '@nestjs/axios';
 import { UsersModule } from './modules/user/user.module';
 import { StoreModule } from './modules/store/store.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -22,9 +24,22 @@ import { StoreModule } from './modules/store/store.module';
       useFactory: async (configService: ConfigService) => configService.get('typeorm'),
       inject: [ConfigService],
     }),
+
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: configService.get('QUEUE_HOST'),
+          port: configService.get('QUEUE_PORT'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
+
     HttpModule,
     UsersModule,
     StoreModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
