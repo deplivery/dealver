@@ -36,18 +36,15 @@ function logAction(
   options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
   const { message, context: logContext, level } = options || {};
-  const logData = {
-    message: message || '',
-    context: logContext || {},
-    level: level || 'info',
-  };
 
-  logLevels.indexOf(logData.level) <= logLevels.indexOf('info') && logSender?.sendLog(logData.message, logData.context);
+  if (logLevels.indexOf(level || 'info') <= logLevels.indexOf('info')) {
+    logSender?.sendLog(message || '', logContext || {});
+  }
 
   // 테스트 수행을 위한 console.log
   process.env.NODE_ENV === 'test' &&
     ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) &&
-    console.log(logData.message, logData.context, args);
+    console.log(message, logContext, args);
 }
 
 type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'verbose';
