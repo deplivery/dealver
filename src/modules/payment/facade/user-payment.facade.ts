@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 
+import { RequestFailError } from '@shared/error/request-fail.error';
+
 import { PaymentService } from './payment.service';
-import { RequestFailError } from '../../../shared/error/request-fail.error';
 import { CacheService } from '../../cache/infra/cache.service';
 import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
 import { OrderDetailService } from '../../order/facade/order-detail.service';

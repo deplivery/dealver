@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { InputError } from '../../../shared/error/input.error';
+import { InputError } from '@shared/error/input.error';
+
 import { ProductCount } from '../../payment/facade/user-payment.facade';
 import { CreateProductInput, Product, PRODUCT_STATUS } from '../domain/entity/product.entity';
 import { ProductRepository } from '../infra/db/product.repository';

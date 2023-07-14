@@ -1,6 +1,7 @@
 import { FindManyOptions, In, Repository } from 'typeorm';
 
-import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
+import { CustomRepository } from '@shared/orm/typeorm-ex.decorator';
+
 import { Product, PRODUCT_STATUS } from '../../domain/entity/product.entity';
 
 @CustomRepository({ entity: Product })

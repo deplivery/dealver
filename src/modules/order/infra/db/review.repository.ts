@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 
-import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
+import { CustomRepository } from '@shared/orm/typeorm-ex.decorator';
+
 import { Review } from '../../domain/entity/review.entity';
 
 @CustomRepository({ entity: Review })

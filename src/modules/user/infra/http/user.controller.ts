@@ -7,8 +7,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { UndefinedToNullInterceptor } from '@shared/interceptors/undefined-to-null.interceptor';
+
 import { kakaoSignUpRequestDto } from './dto/userController.request.dto';
-import { UndefinedToNullInterceptor } from '../../../../shared/interceptors/undefined-to-null.interceptor';
 import { UserService } from '../../facade/user.service';
 
 @ApiInternalServerErrorResponse({

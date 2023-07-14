@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 
+import { RequestFailError } from '@shared/error/request-fail.error';
 import { MockedValueProvider, mockProvider } from '@test/util/mock';
 
 import { PaymentService } from './payment.service';
 import { ProductCount, UserPaymentFacade } from './user-payment.facade';
-import { RequestFailError } from '../../../shared/error/request-fail.error';
 import { RedisService } from '../../cache/infra/redis.service';
 import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
 import { ORDER_STATUS, Order } from '../../order/domain/entity/order.entity';

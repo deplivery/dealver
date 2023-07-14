@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { InputError } from '../../../../shared/error/input.error';
+import { InputError } from '@shared/error/input.error';
+
 import { StoreRepository } from '../../infra/db/repository/store.repository';
 import { Store } from '../entity/store';
 

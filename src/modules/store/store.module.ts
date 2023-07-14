@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { TypeOrmExModule } from '@shared/orm/typeorm-ex.module';
+
 import { StoreDomainService } from './domain/service/store.domain.service';
 import { CreateStoreUseCase } from './facade/create/create-store.usecase';
 import { CreateStoreContext } from './facade/create/strategy/create-store-strategy';
@@ -13,7 +15,6 @@ import { StoreEntity } from './infra/db/entity/store.entity';
 import { StoreManagerRepository } from './infra/db/repository/store-manager.repository';
 import { StoreRepository } from './infra/db/repository/store.repository';
 import { StoreController } from './presentation/REST/store.controller';
-import { TypeOrmExModule } from '../../shared/orm/typeorm-ex.module';
 
 @Module({
   imports: [

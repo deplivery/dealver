@@ -1,7 +1,7 @@
-import { FindManyOptions, getManager, In, Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 
-import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
-import { Product } from '../../../order/domain/entity/product.entity';
+import { CustomRepository } from '@shared/orm/typeorm-ex.decorator';
+
 import { Payment } from '../../domain/entity/payment.entity';
 
 @CustomRepository({ entity: Payment })
