@@ -1,6 +1,12 @@
+import { CloudWatchLogSender } from '@shared/infra/cloud-watch';
+import { LogSender } from '@shared/interface/log-sender.interface';
+
+const logLevels: LogLevel[] = ['error', 'warn', 'info', 'debug', 'verbose'];
+const logSender: LogSender = CloudWatchLogSender.getInstance();
+
 export function LogBehavior(
   methodNames?: string | string[],
-  options?: { message?: string; context?: any; stack?: any },
+  options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
   return function (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) {
     if (propertyKey && descriptor) {
@@ -27,27 +33,21 @@ function logAction(
   context: any,
   methodName: string,
   args: any[],
-  options?: { message?: string; context?: any; stack?: any },
+  options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
-  const messageData = options?.message;
-  const contextData = options?.context || {};
+  const { message, context: logContext, level } = options || {};
+  const logData = {
+    message: message || '',
+    context: logContext || {},
+    level: level || 'info',
+  };
+
+  logLevels.indexOf(logData.level) <= logLevels.indexOf('info') && logSender?.sendLog(logData.message, logData.context);
 
   // 테스트 수행을 위한 console.log
   process.env.NODE_ENV === 'test' &&
     ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) &&
-    console.log(messageData, contextData, args);
-
-  // todo: 로그 저장 혹은 cloudWatch 로그 전송 등 로직
-  switch (methodName) {
-    case 'error':
-      break;
-    case 'log':
-      break;
-    case 'warn':
-      break;
-    case 'debug':
-      break;
-    case 'verbose':
-      break;
-  }
+    console.log(logData.message, logData.context, args);
 }
+
+type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'verbose';
