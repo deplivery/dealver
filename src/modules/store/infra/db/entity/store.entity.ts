@@ -1,5 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { CoreEntity } from '@/shared/orm/core.entity';
+
 import { StoreManagerEntity } from './store-manager.entity';
 
 @Entity({ name: 'store' })

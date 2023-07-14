@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { StoreRepository } from '../../../infra/db/repository/store.repository';
+
+import { CreateStoreStrategy } from './create-store-strategy';
 import { Store } from '../../../domain/entity/store';
 import { StoreConfirm } from '../../../domain/value/store-confirm';
 import { StoreState } from '../../../infra/db/entity/store-confirm.entity';
-import { CreateStoreStrategy } from './create-store-strategy';
+import { StoreRepository } from '../../../infra/db/repository/store.repository';
 
 @Injectable()
 export class StoreManagerStrategy implements CreateStoreStrategy {

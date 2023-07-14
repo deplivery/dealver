@@ -1,4 +1,4 @@
-import { InputError } from '../../../../shared/error/input.error';
+import { InputError } from '@shared/error/input.error';
 
 export enum PAYMENT_TYPE {
   KAKAO = 'Kakao',

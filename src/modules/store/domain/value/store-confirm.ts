@@ -1,4 +1,5 @@
 import { ValueObject } from '@/shared/domain/value-object';
+
 import { StoreState } from '../../infra/db/entity/store-confirm.entity';
 
 interface StoreConfirmProps {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Store } from '../../../domain/entity/store';
+
 import { StoreManagerStrategy } from './store-manager.strategy';
+import { Store } from '../../../domain/entity/store';
 import { StoreRepository } from '../../../infra/db/repository/store.repository';
 
 export interface CreateStoreStrategy {

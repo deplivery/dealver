@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { OrderRepository } from '../../order/infra/db/order.repository';
 
 @Injectable()

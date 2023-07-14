@@ -19,11 +19,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@config/*": ["config/*"],
+      "@test/*": ["test/*"],
       "@/*": ["src/*"],
-      "@/modules/*": ["src/modules/*"],
+      "@module/*": ["src/modules/*"],
       "@shared/*": ["src/shared/*"],
-      "@test/*": ["src/test/*"],
-      "@config/*": ["src/config/*"]
     },
   },
   "include": ["./src"],

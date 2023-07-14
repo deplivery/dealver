@@ -1,4 +1,5 @@
 import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
+
 import { CreateStoreInput } from '../../../facade/create/dto/create-store.input';
 
 export class CreateStoreDto implements CreateStoreInput {

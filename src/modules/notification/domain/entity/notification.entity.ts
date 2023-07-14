@@ -1,5 +1,6 @@
 import { Column, Entity } from 'typeorm';
-import { CoreEntity } from '../../../../shared/orm/core.entity';
+
+import { CoreEntity } from '@shared/orm/core.entity';
 
 @Entity({ name: 'notifications' })
 export class Notification extends CoreEntity {

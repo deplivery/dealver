@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { StoreRepository } from '../../infra/db/repository/store.repository';
+
 import { UpdateStoreInput } from './dto/update-store.input';
 import { StoreDomainService } from '../../domain/service/store.domain.service';
+import { StoreRepository } from '../../infra/db/repository/store.repository';
 
 @Injectable()
 export class UpdateStoreUseCase {

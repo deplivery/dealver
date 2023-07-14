@@ -1,7 +1,8 @@
+import { Repository } from 'typeorm';
+
+import { CustomRepository } from '@shared/orm/typeorm-ex.decorator';
+
 import { Payment } from '../../domain/entity/payment.entity';
-import { CustomRepository } from '../../../../shared/orm/typeorm-ex.decorator';
-import { FindManyOptions, getManager, In, Repository, SelectQueryBuilder } from 'typeorm';
-import { Product } from '../../../order/domain/entity/product.entity';
 
 @CustomRepository({ entity: Payment })
 export class PaymentRepository extends Repository<Payment> {
