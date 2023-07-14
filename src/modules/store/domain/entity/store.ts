@@ -1,4 +1,5 @@
 import { Entity } from '@/shared/domain/entity';
+
 import { InputError } from '../../../../shared/error/input.error';
 import { CreateStoreData } from '../types/create-store.data';
 

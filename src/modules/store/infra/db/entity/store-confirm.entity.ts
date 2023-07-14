@@ -1,6 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { StoreEntity } from './store.entity';
+
 import { CoreEntity } from '@/shared/orm/core.entity';
+
+import { StoreEntity } from './store.entity';
 
 export enum StoreState {
   Ready = 'Ready',

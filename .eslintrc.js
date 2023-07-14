@@ -5,8 +5,15 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'import'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'prettier',
+  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'import', 'prettier'],
   root: true,
   env: {
     node: true,
@@ -28,11 +35,25 @@ module.exports = {
         'newlines-between': 'always',
         pathGroups: [
           {
-            pattern: '@?(shared|test|util)/**',
+            pattern: '@?/**',
             group: 'internal',
+            position: 'before',
           },
         ],
       },
     ],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.ts'],
+      },
+      typescript: {
+        project: './tsconfig.json',
+      },
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts'],
+    },
   },
 };

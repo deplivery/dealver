@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { InputError } from '../../shared/error/input.error';
 import { HttpService } from '@nestjs/axios';
-import * as Jwt from 'jsonwebtoken';
-import { OneHour, OneWeeks } from '../../shared/service/date-format.service';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as Jwt from 'jsonwebtoken';
 import { catchError, firstValueFrom } from 'rxjs';
+
+import { InputError } from '@shared/error/input.error';
+import { OneHour, OneWeeks } from '@shared/service/date-format.service';
 
 export interface IKakaoUserData {
   id: string;
@@ -40,12 +41,8 @@ export class AuthService {
       const response = await this.httpService
         .post<IKakaoUserData>(
           getProfileUrl,
-          {
-            property_keys: ['properties.nickname', 'kakao_account.email'],
-          },
-          {
-            headers: getProfileHeaders,
-          },
+          { property_keys: ['properties.nickname', 'kakao_account.email'] },
+          { headers: getProfileHeaders },
         )
         .pipe(
           catchError((error: AxiosError) => {

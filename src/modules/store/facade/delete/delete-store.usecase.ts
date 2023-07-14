@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+
 import { DeleteStoreInput } from './dto/delete-store.input';
-import { StoreRepository } from '../../infra/db/repository/store.repository';
 import { InputError } from '../../../../shared/error/input.error';
+import { StoreRepository } from '../../infra/db/repository/store.repository';
 
 @Injectable()
 export class DeleteStoreUseCase {

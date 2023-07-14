@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { OrderService } from '../../order/facade/order.service';
-import { UserService } from '../../user/facade/user.service';
-import { PaymentService } from './payment.service';
-import { PAYMENT_TYPE } from '../domain/entity/payment.entity';
-import { ProductService } from '../../order/facade/product.service';
-import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
-import { RequestFailError } from '../../../shared/error/request-fail.error';
 import { v4 } from 'uuid';
+
+import { PaymentService } from './payment.service';
+import { RequestFailError } from '../../../shared/error/request-fail.error';
+import { CacheService } from '../../cache/infra/cache.service';
+import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
 import { OrderDetailService } from '../../order/facade/order-detail.service';
-import { CacheService } from '../../cache/infra/cache.interface';
-import { ORDER_STATUS } from '../../order/domain/entity/order.entity';
+import { OrderService } from '../../order/facade/order.service';
+import { ProductService } from '../../order/facade/product.service';
+import { UserService } from '../../user/facade/user.service';
+import { PAYMENT_TYPE } from '../domain/entity/payment.entity';
 
 export type ProductCount = Pick<OrderDetail, 'productId' | 'count'>;
 
@@ -32,10 +32,6 @@ export class UserPaymentFacade {
     }
 
     const user = await this.userService.getUser(userId); // TODO: JWT 에서 꺼내오기
-    // 카카오 API 호출에 실패시
-    if (!false) {
-      throw new RequestFailError('카카오페이 연동에 실패해습니다');
-    }
     const key = `order-${v4}`;
     await this.cacheService.setValue(key, JSON.stringify({ user, info: productCounts }), 60 * 10);
     return key;

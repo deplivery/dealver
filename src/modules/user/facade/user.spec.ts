@@ -1,11 +1,12 @@
-import { UserService } from './user.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { UserService } from './user.service';
 import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
-import { UserRepository } from '../infra/db/user.repository';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../domain/entity/user.entity';
+import { UserRepository } from '../infra/db/user.repository';
 
 describe('UserService', () => {
   let userService: UserService;

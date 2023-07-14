@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../infra/db/user.repository';
-import { AuthType, User } from '../domain/entity/user.entity';
+
 import { InputError } from '../../../shared/error/input.error';
 import { AuthService } from '../../auth/auth.service';
+import { AuthType, User } from '../domain/entity/user.entity';
+import { UserRepository } from '../infra/db/user.repository';
 
 @Injectable()
 export class UserService {

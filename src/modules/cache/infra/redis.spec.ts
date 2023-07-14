@@ -1,5 +1,6 @@
-import { RedisService } from './redis.service';
 import { v4 } from 'uuid';
+
+import { RedisService } from './redis.service';
 
 describe('Redis 테스트. 실제 레디스를 갖다오므로 레디스 연결이 되어있지 않다면 실패합니다.', () => {
   let redisService: RedisService;

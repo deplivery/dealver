@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { OrderRepository } from '../../order/infra/db/order.repository';
-import { Order } from '../../order/domain/entity/order.entity';
+
 import { InputError } from '@/shared/error/input.error';
+
+import { Order } from '../../order/domain/entity/order.entity';
+import { OrderRepository } from '../../order/infra/db/order.repository';
 
 @Injectable()
 export class ManagerOrderFacade {

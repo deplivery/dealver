@@ -1,13 +1,14 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { validationSchema } from './config/database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeOrmConfig from './config/typeorm.config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HttpModule } from '@nestjs/axios';
-import { UsersModule } from './modules/user/user.module';
+import { validationSchema } from './config/database.config';
+import typeOrmConfig from './config/typeorm.config';
 import { StoreModule } from './modules/store/store.module';
+import { UsersModule } from './modules/user/user.module';
 
 @Module({
   imports: [

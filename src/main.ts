@@ -1,10 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import * as process from 'process';
+
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerSetting } from './shared/swagger-config';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+
+import { AppModule } from './app.module';
 import { logger } from './shared/service/logger.service';
+import { SwaggerSetting } from './shared/swagger-config';
 
 declare const module: any;
 

@@ -1,5 +1,5 @@
-import { Abstract, Type } from '@nestjs/common';
 import { createMock, DeepMocked, MockOptions, PartialFuncReturn } from '@golevelup/ts-jest';
+import { Abstract, Type } from '@nestjs/common';
 
 export interface MockedValueProvider<T> {
   // eslint-disable-next-line @typescript-eslint/ban-types

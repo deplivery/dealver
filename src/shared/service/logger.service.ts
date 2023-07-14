@@ -1,5 +1,5 @@
-import { loggerConfig } from '../../config/logger.config';
 import { LogBehavior } from './log-behavior.decorator';
+import { loggerConfig } from '../../config/logger.config';
 
 @LogBehavior(['error', 'log', 'warn'])
 class LoggerService {
