@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { InputError } from '../../../shared/error/input.error';
-import { CacheService } from './cache.interface';
+import { InputError } from '@shared/error/input.error';
+import { CacheService } from './cache.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class RedisService implements CacheService {
+export class RedisService extends CacheService {
   private readonly client: Redis;
 
-  constructor() {
+  constructor(private configService: ConfigService) {
+    super();
     this.client = new Redis({
-      host: 'localhost',
-      port: 6379,
+      host: this.configService.get<string>('REDIS_HOST'),
+      port: this.configService.get<number>('REDIS_PORT'),
     });
   }
 
