@@ -32,7 +32,7 @@ export class CloudWatchLogSender implements LogSender {
     const logEvent: AWS.CloudWatchLogs.Types.InputLogEvent = {
       message: JSON.stringify({
         message,
-        ...(Object.keys(context).length > 0 && { context }),
+        ...(context && { context }),
       }),
       timestamp: Date.now(),
     };

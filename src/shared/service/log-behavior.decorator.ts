@@ -21,7 +21,7 @@ function logAction(level: LogLevel, message: string, context: any) {
     ['error', 'log', 'warn', 'debug', 'verbose'].includes(level) && console.log(message, context);
     return;
   }
-  logSender?.sendLog(message || '', context || {});
+  message && logSender?.sendLog(`[${level}] ${message}`, context);
 }
 
 type LogLevel = 'error' | 'log' | 'warn' | 'debug' | 'verbose';
