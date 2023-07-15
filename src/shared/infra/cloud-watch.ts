@@ -1,14 +1,21 @@
+import { ConfigService } from '@nestjs/config';
 import AWS from 'aws-sdk';
 
 import { LogSender } from '@shared/interface/log-sender.interface';
 
 export class CloudWatchLogSender implements LogSender {
   private cloudWatchLogs: AWS.CloudWatchLogs;
+  private configService: ConfigService;
+  private logEventQueue: any[];
+  private isSending: boolean;
 
   private static instance: CloudWatchLogSender;
 
   private constructor() {
     this.cloudWatchLogs = new AWS.CloudWatchLogs();
+    this.configService = new ConfigService();
+    this.logEventQueue = [];
+    this.isSending = false;
   }
 
   static getInstance(): CloudWatchLogSender {
@@ -18,32 +25,47 @@ export class CloudWatchLogSender implements LogSender {
     return CloudWatchLogSender.instance;
   }
 
-  sendLog(message: string, context: any): Promise<void> {
-    // 클라우드 워치 환경 변수 설정
-    const logGroupName = '로그 그룹 이름';
-    const logStreamName = '로그 스트림 이름';
+  async sendLog(message: string, context: any): Promise<void> {
+    const logGroupName = this.configService.get<string>('AWS_CLOUDWATCH_LOG_GROUP_NAME');
+    const logStreamName = this.configService.get<string>('AWS_CLOUDWATCH_LOG_STREAM_NAME');
 
-    const logEvent = {
-      message: message,
+    const logEvent: AWS.CloudWatchLogs.Types.InputLogEvent = {
+      message: JSON.stringify({
+        message,
+        ...(Object.keys(context).length > 0 && { context }),
+      }),
       timestamp: Date.now(),
-      context: JSON.stringify(context),
     };
 
-    const params = {
-      logGroupName,
-      logStreamName,
-      logEvents: [logEvent],
-    };
+    this.logEventQueue.push(logEvent);
 
-    return new Promise<void>((resolve, reject) => {
-      this.cloudWatchLogs.putLogEvents(params, (e) => {
-        if (e) {
-          console.error('[CloudWatchLogSender] putLogEvents fail. error:', e);
-          reject(e);
-        } else {
-          resolve();
-        }
-      });
-    });
+    if (!this.isSending) {
+      this.isSending = true;
+      try {
+        await this.sendQueuedLogs(logGroupName, logStreamName);
+      } finally {
+        this.isSending = false;
+      }
+    }
+  }
+
+  private async sendQueuedLogs(logGroupName: string, logStreamName: string): Promise<void> {
+    while (this.logEventQueue.length > 0) {
+      const logEvents = [...this.logEventQueue];
+      this.logEventQueue = [];
+
+      const params = {
+        logGroupName,
+        logStreamName,
+        logEvents,
+      };
+
+      try {
+        await this.cloudWatchLogs.putLogEvents(params).promise();
+      } catch (error) {
+        console.error('[CloudWatchLogSender] putLogEvents fail. error:', error);
+        throw error;
+      }
+    }
   }
 }
