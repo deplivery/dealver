@@ -1,5 +1,13 @@
 import { logger } from './logger.service';
 
+jest.mock('../infra/cloud-watch', () => ({
+  CloudWatchLogSender: {
+    getInstance: jest.fn().mockReturnValue({
+      sendLog: jest.fn(),
+    }),
+  },
+}));
+
 describe('LogBehavior decorator', () => {
   let consoleLogSpy: jest.SpyInstance;
 
