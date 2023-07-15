@@ -1,5 +1,6 @@
+import { loggerConfig } from '@/config/logger.config';
+
 import { LogBehavior } from './log-behavior.decorator';
-import { loggerConfig } from '../../config/logger.config';
 
 @LogBehavior(['error', 'log', 'warn'])
 class LoggerService {
@@ -17,6 +18,7 @@ class LoggerService {
     return LoggerService.instance;
   }
 
+  @LogBehavior(['error'])
   error(message: string, context?: any, stack?: any) {
     this.logger.error({ message, stack, context });
   }

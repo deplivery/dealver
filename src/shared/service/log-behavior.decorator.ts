@@ -1,11 +1,11 @@
-import { CloudWatchLogSender } from '@shared/infra/cloud-watch';
-import { LogSender } from '@shared/interface/log-sender.interface';
+import { CloudWatchLogSender } from '../infra/cloud-watch';
+import { LogSender } from '../interface/log-sender.interface';
 
-const logLevels: LogLevel[] = ['error', 'warn', 'info', 'debug', 'verbose'];
+const logLevels: LogLevel[] = ['error', 'warn', 'log', 'debug', 'verbose'];
 const logSender: LogSender = CloudWatchLogSender.getInstance();
 
 export function LogBehavior(
-  methodNames?: string | string[],
+  methodNames?: LogLevel | LogLevel[],
   options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
   return function (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) {
@@ -37,7 +37,7 @@ function logAction(
 ) {
   const { message, context: logContext, level } = options || {};
 
-  if (logLevels.indexOf(level || 'info') <= logLevels.indexOf('info')) {
+  if (logLevels.indexOf(level || 'log') <= logLevels.indexOf('log')) {
     logSender?.sendLog(message || '', logContext || {});
   }
 
@@ -47,4 +47,4 @@ function logAction(
     console.log(message, logContext, args);
 }
 
-type LogLevel = 'error' | 'warn' | 'info' | 'debug' | 'verbose';
+type LogLevel = 'error' | 'log' | 'warn' | 'debug' | 'verbose';
