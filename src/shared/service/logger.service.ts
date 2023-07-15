@@ -2,7 +2,6 @@ import { loggerConfig } from '@/config/logger.config';
 
 import { LogBehavior } from './log-behavior.decorator';
 
-@LogBehavior(['error', 'log', 'warn'])
 class LoggerService {
   private static instance: LoggerService;
   private readonly logger;
@@ -18,14 +17,17 @@ class LoggerService {
     return LoggerService.instance;
   }
 
+  @LogBehavior()
   error(message: string, context?: any, stack?: any) {
     this.logger.error({ message, stack, context });
   }
 
+  @LogBehavior()
   log(message: string, context?: any) {
     this.logger.info({ message, context });
   }
 
+  @LogBehavior()
   warn(message: string, context?: any) {
     this.logger.warn({ message, context });
   }
