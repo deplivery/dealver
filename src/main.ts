@@ -18,7 +18,9 @@ async function bootstrap() {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   });
-  AWS.config.update({});
+  AWS.config.update({
+    region: process.env.AWS_REGION,
+  });
 
   const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
