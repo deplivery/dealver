@@ -19,7 +19,7 @@ class LoggerService {
 
   @LogBehavior()
   error(message: string, context?: any, stack?: any) {
-    this.logger.error({ message, stack, context });
+    this.logger.error({ message, context, stack });
   }
 
   @LogBehavior()

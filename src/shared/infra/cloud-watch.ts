@@ -25,7 +25,7 @@ export class CloudWatchLogSender implements LogSender {
     return CloudWatchLogSender.instance;
   }
 
-  async sendLog(message: string, context: any): Promise<void> {
+  async sendLog(message: string, context: any, stack: any): Promise<void> {
     const logGroupName = this.configService.get<string>('AWS_CLOUDWATCH_LOG_GROUP_NAME');
     const logStreamName = this.configService.get<string>('AWS_CLOUDWATCH_LOG_STREAM_NAME');
 
@@ -33,6 +33,7 @@ export class CloudWatchLogSender implements LogSender {
       message: JSON.stringify({
         message,
         ...(context && { context }),
+        ...(stack && { stack }),
       }),
       timestamp: Date.now(),
     };
