@@ -6,16 +6,12 @@ import { LogSender } from '@shared/interface/log-sender.interface';
 export class CloudWatchLogSender implements LogSender {
   private cloudWatchLogs: AWS.CloudWatchLogs;
   private configService: ConfigService;
-  private logEventQueue: any[];
-  private isSending: boolean;
 
   private static instance: CloudWatchLogSender;
 
   private constructor() {
     this.cloudWatchLogs = new AWS.CloudWatchLogs();
     this.configService = new ConfigService();
-    this.logEventQueue = [];
-    this.isSending = false;
   }
 
   static getInstance(): CloudWatchLogSender {
@@ -38,35 +34,17 @@ export class CloudWatchLogSender implements LogSender {
       timestamp: Date.now(),
     };
 
-    this.logEventQueue.push(logEvent);
+    const params = {
+      logGroupName,
+      logStreamName,
+      logEvents: [logEvent],
+    };
 
-    if (!this.isSending) {
-      this.isSending = true;
-      try {
-        await this.sendQueuedLogs(logGroupName, logStreamName);
-      } finally {
-        this.isSending = false;
-      }
-    }
-  }
-
-  private async sendQueuedLogs(logGroupName: string, logStreamName: string): Promise<void> {
-    while (this.logEventQueue.length > 0) {
-      const logEvents = [...this.logEventQueue];
-      this.logEventQueue = [];
-
-      const params = {
-        logGroupName,
-        logStreamName,
-        logEvents,
-      };
-
-      try {
-        await this.cloudWatchLogs.putLogEvents(params).promise();
-      } catch (error) {
-        console.error('[CloudWatchLogSender] putLogEvents fail. error:', error);
-        throw error;
-      }
+    try {
+      await this.cloudWatchLogs.putLogEvents(params).promise();
+    } catch (error) {
+      console.error('[CloudWatchLogSender] putLogEvents fail. error:', error);
+      throw error;
     }
   }
 }
