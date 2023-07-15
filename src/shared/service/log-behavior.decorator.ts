@@ -1,7 +1,7 @@
 import { CloudWatchLogSender } from '../infra/cloud-watch';
 import { LogSender } from '../interface/log-sender.interface';
 
-const logLevels: LogLevel[] = ['error', 'warn', 'log', 'debug', 'verbose'];
+const logLevels: LogLevel[] = ['error', 'log', 'warn', 'debug', 'verbose'];
 const logSender: LogSender = CloudWatchLogSender.getInstance();
 
 export function LogBehavior(
@@ -42,7 +42,7 @@ function logAction(
     return;
   }
 
-  if (logLevels.indexOf(level || 'log') <= logLevels.indexOf('log')) {
+  if (logLevels.indexOf(level || 'warn') <= logLevels.indexOf('warn')) {
     logSender?.sendLog(message || '', logContext || {});
   }
 }
