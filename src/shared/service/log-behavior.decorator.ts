@@ -31,20 +31,20 @@ export function LogBehavior(
 
 function logAction(
   context: any,
-  methodName: string,
+  methodName: LogLevel,
   args: any[],
   options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
   const { message, context: logContext, level } = options || {};
 
+  if (process.env.NODE_ENV === 'test') {
+    ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) && console.log(message, logContext, args);
+    return;
+  }
+
   if (logLevels.indexOf(level || 'log') <= logLevels.indexOf('log')) {
     logSender?.sendLog(message || '', logContext || {});
   }
-
-  // 테스트 수행을 위한 console.log
-  process.env.NODE_ENV === 'test' &&
-    ['error', 'log', 'warn', 'debug', 'verbose'].includes(methodName) &&
-    console.log(message, logContext, args);
 }
 
 type LogLevel = 'error' | 'log' | 'warn' | 'debug' | 'verbose';
