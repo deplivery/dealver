@@ -8,7 +8,7 @@ export function LogBehavior(
   methodNames?: LogLevel | LogLevel[],
   options?: { message?: string; context?: any; stack?: any; level?: LogLevel },
 ) {
-  return function (target: any, propertyKey?: string, descriptor?: PropertyDescriptor) {
+  return function (target: any, propertyKey?: LogLevel, descriptor?: PropertyDescriptor) {
     if (propertyKey && descriptor) {
       const originalMethod = descriptor.value;
 
