@@ -18,7 +18,6 @@ class LoggerService {
     return LoggerService.instance;
   }
 
-  @LogBehavior(['error'])
   error(message: string, context?: any, stack?: any) {
     this.logger.error({ message, stack, context });
   }
