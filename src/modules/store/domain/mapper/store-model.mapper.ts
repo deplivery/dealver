@@ -1,3 +1,5 @@
+import { mapToDomain, mapToEntity } from '@shared/domain/mapper';
+
 import { StoreConfirmEntity } from '../../infra/db/entity/store-confirm.entity';
 import { StoreEntity } from '../../infra/db/entity/store.entity';
 import { Store } from '../entity/store';
@@ -5,38 +7,20 @@ import { StoreConfirm } from '../value/store-confirm';
 
 export class StoreModelMapper {
   static toDomain(entity: StoreEntity): Store {
-    return new Store(
-      {
-        name: entity.name,
-        address: entity.address,
-        startHour: entity.startHour,
-        endHour: entity.endHour,
-        isActivated: entity.isActivated,
-        storeManagerId: entity.storeManagerId,
-      },
-      entity.id,
-    );
+    return mapToDomain<StoreEntity, Store>(entity, Store);
   }
 
   static toEntity(domain: Store): StoreEntity {
-    const { props } = domain;
-    const entity = new StoreEntity();
-    return Object.assign(entity, props);
+    return mapToEntity<Store, StoreEntity>(domain, StoreEntity);
   }
 }
 
 export class StoreConfirmModelMapper {
   static toDomain(entity: StoreConfirmEntity): StoreConfirm {
-    return new StoreConfirm({
-      reason: entity.reason,
-      storeId: entity.storeId,
-      state: entity.state,
-    });
+    return mapToDomain<StoreConfirmEntity, StoreConfirm>(entity, StoreConfirm);
   }
 
   static toEntity(domain: StoreConfirm): StoreConfirmEntity {
-    const values = domain.getValues();
-    const entity = new StoreConfirmEntity();
-    return Object.assign(entity, values);
+    return mapToEntity<StoreConfirm, StoreConfirmEntity>(domain, StoreConfirmEntity);
   }
 }

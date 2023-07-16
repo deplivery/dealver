@@ -3,4 +3,5 @@ export interface CreateStoreData {
   address: string;
   startHour: number;
   endHour: number;
+  storeManagerId: number;
 }
