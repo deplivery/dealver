@@ -1,4 +1,6 @@
-import { loggerConfig } from '../../config/logger.config';
+import { loggerConfig } from '@/config/logger.config';
+
+import { LogBehavior } from './log-behavior.decorator';
 
 class LoggerService {
   private static instance: LoggerService;
@@ -15,15 +17,17 @@ class LoggerService {
     return LoggerService.instance;
   }
 
-  // TODO: 추후 로그 저장 (ex. ELK) 작업 필요
+  @LogBehavior()
   error(message: string, context?: any, stack?: any) {
-    this.logger.error({ message, stack, context });
+    this.logger.error({ message, context, stack });
   }
 
+  @LogBehavior()
   log(message: string, context?: any) {
     this.logger.info({ message, context });
   }
 
+  @LogBehavior()
   warn(message: string, context?: any) {
     this.logger.warn({ message, context });
   }

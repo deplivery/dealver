@@ -1,0 +1,67 @@
+name: ECR and S3 CI/CD
+
+on:
+  create:
+    tags:
+      - "release/*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: <AWS_REGION>
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]; then
+            echo "::set-output name=tag::${{ github.ref }}"
+          else
+            echo "::set-output name=tag::"
+          fi
+
+      - name: Generate image tag
+        id: generate_tag
+        run: |
+          IMAGE_TAG=$(date +'%Y.%m.%d.%H%M%S')
+          if [ -n "${{ steps.check_tag.outputs.tag }}" ]; then
+            IMAGE_TAG="${{ steps.check_tag.outputs.tag }}-$IMAGE_TAG"
+          fi
+          echo "::set-output name=image_tag::$IMAGE_TAG"
+
+      - name: Build Docker image
+        run: |
+          docker build -t <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }} .
+
+      - name: Archive Docker image
+        run: |
+          docker save <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }} | gzip > image.tar.gz
+
+      - name: Upload image to S3 bucket
+        uses: aws-actions/upload-artifact@v2
+        with:
+          name: image
+          path: image.tar.gz
+
+      - name: Push Docker image to ECR
+        run: |
+          if [ -n "${{ steps.generate_tag.outputs.image_tag }}" ]; then
+            $(aws ecr get-login --no-include-email --region <AWS_REGION>)
+            docker push <ECR_REPOSITORY_URI>:${{ steps.generate_tag.outputs.image_tag }}
+          else
+            echo "No tag found. Skipping ECR push."
+          fi
