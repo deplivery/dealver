@@ -13,7 +13,7 @@ interface StoreProps {
 }
 
 export class Store extends Domain<StoreProps> {
-  static of(creatorId: number, input: CreateStoreData): Store {
+  static of(input: CreateStoreData): Store {
     if (input.startHour >= input.endHour) {
       throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');
     }
@@ -23,7 +23,7 @@ export class Store extends Domain<StoreProps> {
       startHour: input.startHour,
       endHour: input.endHour,
       isActivated: false,
-      storeManagerId: creatorId,
+      storeManagerId: input.storeManagerId,
     });
   }
 
