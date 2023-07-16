@@ -1,4 +1,4 @@
-export abstract class Entity<T> {
+export abstract class Domain<T> {
   public readonly props: T;
   protected readonly id: number; //auto increment을 사용했기때문!
 
@@ -7,14 +7,14 @@ export abstract class Entity<T> {
     this.props = props;
   }
 
-  isEqual(entity: Entity<T>) {
-    if (entity === null || entity === undefined) {
+  isEqual(domain: Domain<T>) {
+    if (domain === null || domain === undefined) {
       return false;
     }
-    if (!(entity instanceof this.constructor)) {
+    if (!(domain instanceof this.constructor)) {
       return false;
     }
-    return entity.id === this.id;
+    return domain.id === this.id;
   }
 
   getId() {

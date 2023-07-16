@@ -3,7 +3,7 @@ export interface ValueObjectProps {
 }
 
 export abstract class ValueObject<T extends ValueObjectProps> {
-  constructor(protected readonly props: T) {}
+  protected constructor(protected readonly props: T) {}
 
   public isEqual(vo?: ValueObject<T>): boolean {
     return JSON.stringify(this.props) === JSON.stringify(vo?.props);

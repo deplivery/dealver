@@ -1,4 +1,4 @@
-import { Entity } from '@/shared/domain/entity';
+import { Domain } from '@shared/domain/domain';
 import { InputError } from '@shared/error/input.error';
 
 import { CreateStoreData } from '../types/create-store.data';
@@ -12,7 +12,7 @@ interface StoreProps {
   storeManagerId: number;
 }
 
-export class Store extends Entity<StoreProps> {
+export class Store extends Domain<StoreProps> {
   static of(creatorId: number, input: CreateStoreData): Store {
     if (input.startHour >= input.endHour) {
       throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');
