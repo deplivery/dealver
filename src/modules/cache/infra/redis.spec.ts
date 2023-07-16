@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { v4 } from 'uuid';
 
 import { RedisService } from './redis.service';
@@ -7,7 +8,7 @@ describe('Redis 테스트. 실제 레디스를 갖다오므로 레디스 연결�
   const testKey = `test-key-${v4}`;
 
   beforeEach(() => {
-    redisService = new RedisService();
+    redisService = new RedisService(new ConfigService());
   });
 
   afterEach(async () => {
