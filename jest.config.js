@@ -11,4 +11,11 @@ module.exports = {
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
+  moduleNameMapper: {
+    '@config/(.*)': '<rootDir>/../config/$1',
+    '@test/(.*)': '<rootDir>/../test/$1',
+    '@/(.*)': '<rootDir>/$1',
+    '@module/(.*)': '<rootDir>/modules/$1',
+    '@shared/(.*)': '<rootDir>/shared/$1',
+  },
 };
