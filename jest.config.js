@@ -1,8 +1,5 @@
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
-  moduleNameMapper: {
-    '^@/config/logger\\.config$': '../../config/logger.config',
-  },
   rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
