@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 
-import { AuthType } from '@module/user/domain/entity/user.entity';
+import { AuthType } from '@module/user/infra/db/entity/user.entity';
 import { CoreEntity } from '@shared/orm/core.entity';
 
 @Entity({ name: 'store_manager' })

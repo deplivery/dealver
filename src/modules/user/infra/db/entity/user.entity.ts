@@ -8,7 +8,7 @@ export enum AuthType {
 }
 
 @Entity({ name: 'users' })
-export class User extends CoreEntity {
+export class UserEntity extends CoreEntity {
   @Column('varchar', { name: 'nickname', length: 150 })
   nickname: string;
 
