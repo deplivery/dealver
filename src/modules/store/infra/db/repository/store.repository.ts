@@ -5,7 +5,7 @@ import { mapToDomain } from '@shared/domain/mapper';
 
 import { StoreDomain } from '../../../domain/domain/store.domain';
 import { StoreConfirmModelMapper, StoreModelMapper } from '../../../domain/mapper/store-model.mapper';
-import { StoreConfirm } from '../../../domain/value/store-confirm';
+import { StoreConfirmValue } from '../../../domain/value/store-confirm';
 import { StoreConfirmEntity } from '../entity/store-confirm.entity';
 import { StoreEntity } from '../entity/store.entity';
 
@@ -13,23 +13,23 @@ import { StoreEntity } from '../entity/store.entity';
 export class StoreRepository extends Repository<StoreEntity> {
   async findById(id: number): Promise<StoreDomain | undefined> {
     const entity = await this.findOne({ where: { id } });
-    return entity ? mapToDomain<StoreEntity, StoreDomain>(entity, StoreDomain) : undefined;
+    return entity ? mapToDomain(entity, StoreDomain) : undefined;
   }
 
   async findByAddress(address: string): Promise<StoreDomain | undefined> {
     const entity = await this.findOne({ where: { address } });
-    return entity ? mapToDomain<StoreEntity, StoreDomain>(entity, StoreDomain) : undefined;
+    return entity ? mapToDomain(entity, StoreDomain) : undefined;
   }
 
   async saveStore(store: StoreDomain): Promise<StoreDomain> {
     const entity = StoreModelMapper.toEntity(store);
     const savedEntity = await this.save(entity);
-    return mapToDomain<StoreEntity, StoreDomain>(savedEntity, StoreDomain);
+    return mapToDomain(savedEntity, StoreDomain);
   }
 
-  async saveConfirm(confirm: StoreConfirm): Promise<StoreConfirm> {
+  async saveConfirm(confirm: StoreConfirmValue): Promise<StoreConfirmValue> {
     const entity = StoreConfirmModelMapper.toEntity(confirm);
     const savedEntity = await this.manager.getRepository(StoreConfirmEntity).save(entity);
-    return mapToDomain<StoreConfirmEntity, StoreConfirm>(savedEntity, StoreConfirm);
+    return mapToDomain(savedEntity, StoreConfirmValue);
   }
 }

@@ -8,7 +8,7 @@ interface StoreConfirmProps {
   state: StoreState;
 }
 
-export class StoreConfirm extends ValueObject<StoreConfirmProps> {
+export class StoreConfirmValue extends ValueObject<StoreConfirmProps> {
   constructor(props: StoreConfirmProps) {
     super(props);
   }
