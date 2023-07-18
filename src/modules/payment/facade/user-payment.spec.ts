@@ -11,8 +11,8 @@ import { ORDER_STATUS, Order } from '../../order/domain/entity/order.entity';
 import { OrderDetailService } from '../../order/facade/order-detail.service';
 import { OrderService } from '../../order/facade/order.service';
 import { ProductService } from '../../order/facade/product.service';
-import { User } from '../../user/domain/entity/user.entity';
 import { UserService } from '../../user/facade/user.service';
+import { UserEntity } from '../../user/infra/db/entity/user.entity';
 import { PAYMENT_TYPE } from '../domain/entity/payment.entity';
 
 describe('order-payment', () => {
@@ -56,7 +56,7 @@ describe('order-payment', () => {
 
   describe('registerUserPayment() 테스트', () => {
     let isAvailable = true;
-    let user = {} as User;
+    let user = {} as UserEntity;
     let valueFromRedis;
 
     const userId = 1;

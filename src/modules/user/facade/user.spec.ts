@@ -2,10 +2,11 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { MockedValueProvider, mockProvider } from '@test/util/mock';
+
 import { UserService } from './user.service';
-import { MockedValueProvider, mockProvider } from '../../../../test/util/mock';
 import { AuthService } from '../../auth/auth.service';
-import { User } from '../domain/entity/user.entity';
+import { UserEntity } from '../infra/db/entity/user.entity';
 import { UserRepository } from '../infra/db/user.repository';
 
 describe('UserService', () => {
@@ -35,7 +36,7 @@ describe('UserService', () => {
 
     it('하나의 유저를 찾았을때 유저 정보를 가져온다.', async () => {
       const userId = 1;
-      const newUser = new User();
+      const newUser = new UserEntity();
       newUser.id = 1;
       newUser.email = 'ash@gmail.com';
       newUser.nickname = 'ash';
@@ -68,7 +69,7 @@ describe('UserService', () => {
         },
       };
 
-      const newUser = new User();
+      const newUser = new UserEntity();
       newUser.email = kakaoUserData.kakao_account.email;
       newUser.nickname = kakaoUserData.properties.nickname;
       newUser.authId = kakaoUserData.id;

@@ -3,7 +3,7 @@ import { StoreConfirmEntity, StoreState } from '@module/store/infra/db/entity/st
 
 import { StoreConfirmModelMapper, StoreModelMapper } from './store-model.mapper';
 import { StoreEntity } from '../../infra/db/entity/store.entity';
-import { Store } from '../entity/store';
+import { StoreDomain } from '../domain/store.domain';
 
 describe('StoreModelMapper', () => {
   describe('StoreModelMapper toDomain', () => {
@@ -24,7 +24,7 @@ describe('StoreModelMapper', () => {
 
       const result = StoreModelMapper.toDomain(entity);
 
-      expect(result).toBeInstanceOf(Store);
+      expect(result).toBeInstanceOf(StoreDomain);
       expect(result.getId()).toBe(entity.id);
     });
   });
@@ -32,7 +32,7 @@ describe('StoreModelMapper', () => {
   describe('StoreModelMapper toEntity', () => {
     it('should map Store domain to StoreEntity', () => {
       // Prepare
-      const domain: Store = new Store({
+      const domain: StoreDomain = new StoreDomain({
         name: 'store name',
         address: 'store address',
         startHour: 9,
