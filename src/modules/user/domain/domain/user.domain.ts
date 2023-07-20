@@ -8,8 +8,10 @@ interface UserProps {
   authType: AuthType;
 }
 
+export type CreateUserInput = UserProps;
+
 export class UserDomain extends Domain<UserProps> {
-  static of(input: UserProps): UserDomain {
+  static of(input: CreateUserInput): UserDomain {
     return new UserDomain({
       nickname: input.nickname,
       email: input.email,

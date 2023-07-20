@@ -1,6 +1,6 @@
 import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
 
-import { CreateStoreInput } from '../../../facade/create/dto/create-store.input';
+import { CreateStoreInput } from '@module/store/domain/domain/store.domain';
 
 export class CreateStoreDto implements CreateStoreInput {
   @IsNotEmpty()
@@ -19,4 +19,7 @@ export class CreateStoreDto implements CreateStoreInput {
   @Max(24)
   @IsNotEmpty()
   endHour: number;
+  @IsInt()
+  @Min(0)
+  storeManagerId: number;
 }
