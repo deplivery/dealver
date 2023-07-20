@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
 import { CreateStoreDto } from './dto/create-store.dto';
-import { CreateStoreUseCase } from '../../facade/create/create-store.usecase';
+import { CreateStoreUsecase } from '../../facade/create/create-store-usecase.service';
 
 @Controller('store')
 export class StoreController {
-  constructor(private readonly createStoreUseCase: CreateStoreUseCase) {}
+  constructor(private readonly createStoreUseCase: CreateStoreUsecase) {}
 
   @Post('/')
   async create(@Body() input: CreateStoreDto) {

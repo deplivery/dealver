@@ -10,10 +10,10 @@ interface StoreProps {
   storeManagerId: number;
 }
 
-export type CreateStoreData = Omit<StoreProps, 'isActivated'>;
+export type CreateStoreInput = Omit<StoreProps, 'isActivated'>;
 
 export class StoreDomain extends Domain<StoreProps> {
-  static of(input: CreateStoreData): StoreDomain {
+  static of(input: CreateStoreInput): StoreDomain {
     if (input.startHour >= input.endHour) {
       throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');
     }
@@ -31,7 +31,7 @@ export class StoreDomain extends Domain<StoreProps> {
     this.props.isActivated = isActivated;
   }
 
-  changeStoreInfo(input: Partial<CreateStoreData>): void {
+  changeStoreInfo(input: Partial<CreateStoreInput>): void {
     if (input.startHour && input.endHour) {
       if (input.startHour >= input.endHour) {
         throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');

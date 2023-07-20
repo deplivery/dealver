@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmExModule } from '@shared/orm/typeorm-ex.module';
 
 import { StoreDomainService } from './domain/service/store.domain.service';
-import { CreateStoreUseCase } from './facade/create/create-store.usecase';
+import { CreateStoreUsecase } from './facade/create/create-store-usecase.service';
 import { CreateStoreContext } from './facade/create/strategy/create-store-strategy';
 import { StoreManagerStrategy } from './facade/create/strategy/store-manager.strategy';
 import { DeleteStoreUseCase } from './facade/delete/delete-store.usecase';
@@ -22,7 +22,7 @@ import { StoreController } from './presentation/REST/store.controller';
     TypeOrmExModule.forCustomRepository([StoreRepository, StoreManagerRepository]),
   ],
   providers: [
-    CreateStoreUseCase,
+    CreateStoreUsecase,
     UpdateStoreUseCase,
     DeleteStoreUseCase,
 
