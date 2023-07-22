@@ -10,9 +10,9 @@ export class UpdateStoreUseCase {
 
   async execute(user: any, input: UpdateStoreInput) {
     const store = await this.repository.findById(input.storeId);
-    await this.domainService.validateStore(store, input.address);
+    await this.domainService.existStore(store, input.address);
 
-    store.changeStoreInfo(input);
-    return this.repository.saveStore(store);
+    const changedStore = store.changeStoreInfo(input);
+    return this.repository.saveStore(changedStore);
   }
 }
