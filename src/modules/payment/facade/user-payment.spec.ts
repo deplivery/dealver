@@ -5,7 +5,7 @@ import { MockedValueProvider, mockProvider } from '@test/util/mock';
 
 import { PaymentService } from './payment.service';
 import { ProductCount, UserPaymentFacade } from './user-payment.facade';
-import { RedisService } from '../../cache/infra/redis.service';
+import { RedisService } from '../../component/cache/infra/redis.service';
 import { OrderDetail } from '../../order/domain/entity/order-detail.entity';
 import { ORDER_STATUS, Order } from '../../order/domain/entity/order.entity';
 import { OrderDetailService } from '../../order/facade/order-detail.service';

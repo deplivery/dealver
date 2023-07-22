@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { InputError } from '@shared/error/input.error';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../component/auth/auth.service';
 import { AuthType, UserEntity } from '../infra/db/entity/user.entity';
 import { UserRepository } from '../infra/db/user.repository';
 

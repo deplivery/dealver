@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MockedValueProvider, mockProvider } from '@test/util/mock';
 
 import { UserService } from './user.service';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../component/auth/auth.service';
 import { UserEntity } from '../infra/db/entity/user.entity';
 import { UserRepository } from '../infra/db/user.repository';
 
