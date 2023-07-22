@@ -11,7 +11,7 @@ export class CreateStoreUsecase {
   //TODO: user type
   async execute(user: { id: number; role: 'manager' }, input: CreateStoreInput) {
     const store = StoreDomain.of(input);
-    await this.domainService.validateStore(store, input.address);
+    await this.domainService.existStore(store, input.address);
     return this.createStoreStrategy.create(user.role, store);
   }
 }

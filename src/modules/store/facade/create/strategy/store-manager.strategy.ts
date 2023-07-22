@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateStoreStrategy } from './create-store-strategy';
 import { StoreDomain } from '../../../domain/domain/store.domain';
-import { StoreConfirm } from '../../../domain/value/store-confirm';
+import { StoreConfirmValue } from '../../../domain/value/store-confirm';
 import { StoreState } from '../../../infra/db/entity/store-confirm.entity';
 import { StoreRepository } from '../../../infra/db/repository/store.repository';
 
@@ -12,7 +12,7 @@ export class StoreManagerStrategy implements CreateStoreStrategy {
 
   async create(store: StoreDomain) {
     const newStore = await this.repository.saveStore(store);
-    const confirm = new StoreConfirm({
+    const confirm = new StoreConfirmValue({
       state: StoreState.Ready,
       reason: '',
       storeId: newStore.getId(),

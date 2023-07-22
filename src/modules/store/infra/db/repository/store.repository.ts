@@ -1,10 +1,9 @@
 import { Repository } from 'typeorm';
 
 import { CustomRepository } from '@/shared/orm/typeorm-ex.decorator';
-import { mapToDomain } from '@shared/domain/mapper';
+import { mapToDomain, mapToEntity } from '@shared/domain/mapper';
 
 import { StoreDomain } from '../../../domain/domain/store.domain';
-import { StoreConfirmModelMapper, StoreModelMapper } from '../../../domain/mapper/store-model.mapper';
 import { StoreConfirmValue } from '../../../domain/value/store-confirm';
 import { StoreConfirmEntity } from '../entity/store-confirm.entity';
 import { StoreEntity } from '../entity/store.entity';
@@ -22,13 +21,13 @@ export class StoreRepository extends Repository<StoreEntity> {
   }
 
   async saveStore(store: StoreDomain): Promise<StoreDomain> {
-    const entity = StoreModelMapper.toEntity(store);
+    const entity = mapToEntity(store, StoreEntity);
     const savedEntity = await this.save(entity);
     return mapToDomain(savedEntity, StoreDomain);
   }
 
   async saveConfirm(confirm: StoreConfirmValue): Promise<StoreConfirmValue> {
-    const entity = StoreConfirmModelMapper.toEntity(confirm);
+    const entity = mapToEntity(confirm, StoreConfirmEntity);
     const savedEntity = await this.manager.getRepository(StoreConfirmEntity).save(entity);
     return mapToDomain(savedEntity, StoreConfirmValue);
   }
