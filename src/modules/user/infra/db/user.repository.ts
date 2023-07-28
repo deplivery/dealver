@@ -15,15 +15,15 @@ export class UserRepository extends Repository<UserEntity> {
         .then((entity) => {
           if (entity) {
             const userDomain = mapToDomain<UserEntity, UserDomain>(entity, UserDomain);
-            subscriber.next(userDomain); // Emit the userDomain value
-            subscriber.complete(); // Complete the observable stream
+            subscriber.next(userDomain);
+            subscriber.complete();
           } else {
-            subscriber.next(undefined); // If entity is not found, emit undefined
-            subscriber.complete(); // Complete the observable stream
+            subscriber.next(undefined);
+            subscriber.complete();
           }
         })
         .catch((error) => {
-          subscriber.error(error); // If an error occurs during the process, emit the error
+          subscriber.error(error);
         });
     });
   }
