@@ -1,8 +1,6 @@
 import { Domain } from '@shared/domain/domain';
 import { InputError } from '@shared/error/input.error';
 
-import { CreateStoreData } from '../types/create-store.data';
-
 interface StoreProps {
   name: string;
   address: string;
@@ -12,12 +10,14 @@ interface StoreProps {
   storeManagerId: number;
 }
 
-export class Store extends Domain<StoreProps> {
-  static of(input: CreateStoreData): Store {
+export type CreateStoreInput = Omit<StoreProps, 'isActivated'>;
+
+export class StoreDomain extends Domain<StoreProps> {
+  static of(input: CreateStoreInput): StoreDomain {
     if (input.startHour >= input.endHour) {
       throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');
     }
-    return new Store({
+    return new StoreDomain({
       name: input.name,
       address: input.address,
       startHour: input.startHour,
@@ -31,7 +31,7 @@ export class Store extends Domain<StoreProps> {
     this.props.isActivated = isActivated;
   }
 
-  changeStoreInfo(input: Partial<CreateStoreData>): void {
+  changeStoreInfo(input: Partial<CreateStoreInput>): void {
     if (input.startHour && input.endHour) {
       if (input.startHour >= input.endHour) {
         throw new InputError('영업시간이 영업 마감시간보다 늦습니다.');

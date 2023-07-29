@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 
 import { InputError } from '@shared/error/input.error';
 
-import { AuthService } from '../../auth/auth.service';
-import { AuthType, User } from '../domain/entity/user.entity';
+import { AuthService } from '../../component/auth/auth.service';
+import { AuthType, UserEntity } from '../infra/db/entity/user.entity';
 import { UserRepository } from '../infra/db/user.repository';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository, private readonly authService: AuthService) {}
 
-  async getUser(id: number): Promise<User> {
+  async getUser(id: number): Promise<UserEntity> {
     const findUser = await this.userRepository.findOne({ where: { id } });
     if (!findUser) {
       throw new InputError('not found User');
@@ -25,7 +25,7 @@ export class UserService {
     });
 
     if (!foundUser) {
-      const newUser = new User();
+      const newUser = new UserEntity();
       newUser.email = kakaoUserData.kakao_account.email;
       newUser.nickname = kakaoUserData.properties.nickname;
       newUser.authId = kakaoUserData.id;
