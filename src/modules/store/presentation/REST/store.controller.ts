@@ -3,10 +3,10 @@ import { AutoController } from '@tiny-nestjs/auto-injectable';
 
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { CreateStoreUsecase } from '../../facade/create/create-store-usecase.service';
-import { DeleteStoreUsecase } from '../../facade/delete/delete-store.usecase';
-import { GetStoreUsecase } from '../../facade/get/get-store.usecase';
-import { UpdateStoreUsecase } from '../../facade/update/update-store.usecase';
+import { CreateStoreUsecase } from '../../application/create/create-store-usecase.service';
+import { DeleteStoreUsecase } from '../../application/delete/delete-store.usecase';
+import { GetStoreUsecase } from '../../application/get/get-store.usecase';
+import { UpdateStoreUsecase } from '../../application/update/update-store.usecase';
 
 @AutoController('store')
 export class StoreController {
