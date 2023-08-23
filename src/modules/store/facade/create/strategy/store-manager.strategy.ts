@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { AutoInjectable } from '@tiny-nestjs/auto-injectable';
 
 import { CreateStoreStrategy } from './create-store-strategy';
 import { StoreDomain } from '../../../domain/domain/store.domain';
@@ -6,7 +6,7 @@ import { StoreConfirmValue } from '../../../domain/value/store-confirm';
 import { StoreState } from '../../../infra/db/entity/store-confirm.entity';
 import { StoreRepository } from '../../../infra/db/repository/store.repository';
 
-@Injectable()
+@AutoInjectable()
 export class StoreManagerStrategy implements CreateStoreStrategy {
   constructor(private readonly repository: StoreRepository) {}
 

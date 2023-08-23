@@ -14,13 +14,15 @@ declare const module: any;
 
 async function bootstrap() {
   // Set AWS config before creating NestFactory
-  AWS.config.credentials = new AWS.Credentials({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  });
-  AWS.config.update({
-    region: process.env.AWS_REGION,
-  });
+  if (!process.env.NODE_ENV.match(/(dev|test|local)/)) {
+    AWS.config.credentials = new AWS.Credentials({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    });
+    AWS.config.update({
+      region: process.env.AWS_REGION,
+    });
+  }
 
   const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');

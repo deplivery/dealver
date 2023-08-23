@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { AutoInjectable } from '@tiny-nestjs/auto-injectable';
 
 import { StoreManagerStrategy } from './store-manager.strategy';
 import { StoreDomain } from '../../../domain/domain/store.domain';
@@ -7,7 +7,7 @@ export interface CreateStoreStrategy {
   create(store: StoreDomain): Promise<StoreDomain>;
 }
 
-@Injectable()
+@AutoInjectable()
 export class CreateStoreContext {
   private strategies: Record<string, CreateStoreStrategy> = {};
 

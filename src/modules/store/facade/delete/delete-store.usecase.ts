@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { AutoInjectable } from '@tiny-nestjs/auto-injectable';
 
 import { InputError } from '@shared/error/input.error';
 
 import { DeleteStoreInput } from './dto/delete-store.input';
 import { StoreRepository } from '../../infra/db/repository/store.repository';
 
-@Injectable()
-export class DeleteStoreUseCase {
+@AutoInjectable()
+export class DeleteStoreUsecase {
   constructor(private readonly repository: StoreRepository) {}
 
   async execute(user: any, input: DeleteStoreInput) {
@@ -14,7 +14,10 @@ export class DeleteStoreUseCase {
     if (!store) {
       throw new InputError('존재하지 않는 가게입니다.');
     }
-    store.changeActivated(false);
-    return this.repository.saveStore(store);
+    if (store.props.storeManagerId !== user.id) {
+      throw new InputError('가게를 삭제할 권한이 없습니다.');
+    }
+    const deletedStore = store.changeActivated(false);
+    return this.repository.saveStore(deletedStore);
   }
 }
