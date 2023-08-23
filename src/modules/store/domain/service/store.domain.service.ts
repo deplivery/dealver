@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { AutoInjectable } from '@tiny-nestjs/auto-injectable';
 
 import { InputError } from '@shared/error/input.error';
 
 import { StoreRepository } from '../../infra/db/repository/store.repository';
 import { StoreDomain } from '../domain/store.domain';
 
-@Injectable()
+@AutoInjectable()
 export class StoreDomainService {
   constructor(private readonly repository: StoreRepository) {}
 
-  async validateStore(store: StoreDomain, excludeAddress?: string): Promise<void> {
+  async existStore(store: StoreDomain, excludeAddress?: string): Promise<void> {
     const exist = await this.existAddress(store, excludeAddress);
     if (exist) {
       throw new InputError('이미 존재하는 가게입니다.');
