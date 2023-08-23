@@ -19,7 +19,7 @@ export class CreateStoreDto implements CreateStoreInput {
   @Max(24)
   @IsNotEmpty()
   endHour: number;
+
   @IsInt()
-  @Min(0)
   storeManagerId: number;
 }
