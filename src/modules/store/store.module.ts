@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,6 +15,9 @@ import { StoreRepository } from './infra/db/repository/store.repository';
 @ComponentScan()
 @Module({
   imports: [
+    BullModule.registerQueue({
+      name: 'store',
+    }),
     CqrsModule,
     TypeOrmModule.forFeature([StoreEntity, StoreConfirmEntity, StoreManagerEntity]),
     TypeOrmExModule.forCustomRepository([StoreRepository, StoreManagerRepository]),
