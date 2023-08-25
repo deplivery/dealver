@@ -14,7 +14,6 @@ export class CreateStoreHandler implements ICommandHandler<CreateStoreCommand> {
   async execute(command: CreateStoreCommand): Promise<StoreDomain> {
     const store = StoreDomain.of({ ...command });
     await this.domainService.existStore(store, command.address);
-    const newStore = await this.repository.saveStore(store);
-    return newStore;
+    return this.repository.saveStore(store);
   }
 }

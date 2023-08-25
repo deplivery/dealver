@@ -14,7 +14,7 @@ export type CreateStoreInput = Omit<StoreProps, 'isActivated'>;
 
 export class StoreDomain extends Domain<StoreProps> {
   static of(input: CreateStoreInput): StoreDomain {
-    StoreDomain.assertTime(input.startHour, input.endHour);
+    this.assertTime(input.startHour, input.endHour);
     return new StoreDomain({
       name: input.name,
       address: input.address,
