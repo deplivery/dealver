@@ -21,7 +21,6 @@ export class CreateStoreHandler implements ICommandHandler<CreateStoreCommand> {
     const store = StoreDomain.of({ ...command });
     await this.domainService.existStore(store, command.address);
     const newStore = await this.repository.saveStore(store);
-    console.log(newStore);
     this.publisher.add('open', { ...newStore });
     return newStore;
   }

@@ -26,10 +26,13 @@ export class StoreDomain extends Domain<StoreProps> {
   }
 
   changeActivated(isActivated: boolean): StoreDomain {
-    return new StoreDomain({
-      ...this.props,
-      isActivated,
-    });
+    return new StoreDomain(
+      {
+        ...this.props,
+        isActivated,
+      },
+      this.id,
+    );
   }
 
   changeStoreInfo(input: Partial<CreateStoreInput>): StoreDomain {
@@ -38,9 +41,12 @@ export class StoreDomain extends Domain<StoreProps> {
     this.props.address = input.address || this.props.address;
     this.props.startHour = input.startHour || this.props.startHour;
     this.props.endHour = input.endHour || this.props.endHour;
-    return new StoreDomain({
-      ...this.props,
-    });
+    return new StoreDomain(
+      {
+        ...this.props,
+      },
+      this.id,
+    );
   }
 
   private assertOpeningTime(startHour?: number, endHour?: number): void {

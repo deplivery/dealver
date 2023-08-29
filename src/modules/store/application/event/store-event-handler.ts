@@ -22,4 +22,16 @@ export class AudioConsumer {
     await this.repository.saveConfirm(confirm);
     return {};
   }
+
+  @Process('close')
+  async close(job: Job<{ id: number; props: StoreEntity }>) {
+    const newStore = job.data;
+    const confirm = new StoreConfirmValue({
+      state: StoreState.Delete,
+      reason: 'store is closed',
+      storeId: newStore.id,
+    });
+    await this.repository.saveConfirm(confirm);
+    return {};
+  }
 }

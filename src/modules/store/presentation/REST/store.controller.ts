@@ -4,18 +4,14 @@ import { AutoController } from '@tiny-nestjs/auto-injectable';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { CreateStoreCommand } from '../../application/command/create-store.command';
+import { DeleteStoreCommand } from '../../application/command/delete-store.command';
 import { UpdateStoreCommand } from '../../application/command/update-store.command';
-import { DeleteStoreUsecase } from '../../application/delete/delete-store.usecase';
 import { GetStoreUsecase } from '../../application/get/get-store.usecase';
 import { StoreApplicationService } from '../../application/service/store-application.service';
 
 @AutoController('store')
 export class StoreController {
-  constructor(
-    private readonly service: StoreApplicationService,
-    private readonly deleteStoreUsecase: DeleteStoreUsecase,
-    private readonly getStoreUsecase: GetStoreUsecase,
-  ) {}
+  constructor(private readonly service: StoreApplicationService, private readonly getStoreUsecase: GetStoreUsecase) {}
 
   @Post('/')
   async create(@Body() input: CreateStoreDto) {
@@ -31,9 +27,9 @@ export class StoreController {
     );
   }
 
-  @Delete('/')
-  async delete() {
-    return this.deleteStoreUsecase.execute({ id: 1, role: 'manager' }, { storeId: 1 });
+  @Delete('/:id')
+  async delete(@Param('id') id: string) {
+    return this.service.deleteStore(new DeleteStoreCommand(Number(id)));
   }
 
   @Get('/:id')
