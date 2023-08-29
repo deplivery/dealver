@@ -6,12 +6,12 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { CreateStoreCommand } from '../../application/command/create-store.command';
 import { DeleteStoreCommand } from '../../application/command/delete-store.command';
 import { UpdateStoreCommand } from '../../application/command/update-store.command';
-import { GetStoreUsecase } from '../../application/get/get-store.usecase';
+import { FindStoreQuery } from '../../application/query/find-store.query';
 import { StoreApplicationService } from '../../application/service/store-application.service';
 
 @AutoController('store')
 export class StoreController {
-  constructor(private readonly service: StoreApplicationService, private readonly getStoreUsecase: GetStoreUsecase) {}
+  constructor(private readonly service: StoreApplicationService) {}
 
   @Post('/')
   async create(@Body() input: CreateStoreDto) {
@@ -19,7 +19,6 @@ export class StoreController {
       new CreateStoreCommand(input.name, input.address, input.startHour, input.endHour, input.storeManagerId),
     );
   }
-
   @Put('/')
   async update(@Body() input: UpdateStoreDto) {
     return this.service.updateStore(
@@ -34,6 +33,6 @@ export class StoreController {
 
   @Get('/:id')
   async get(@Param('id') id: string) {
-    return this.getStoreUsecase.getOne(Number(id));
+    return this.service.getStoreById(new FindStoreQuery(Number(id)));
   }
 }
