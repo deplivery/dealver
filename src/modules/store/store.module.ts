@@ -17,6 +17,10 @@ import { StoreRepository } from './infra/db/repository/store.repository';
   imports: [
     BullModule.registerQueue({
       name: 'store',
+      redis: {
+        host: 'redis',
+        port: 6379,
+      },
     }),
     CqrsModule,
     TypeOrmModule.forFeature([StoreEntity, StoreConfirmEntity, StoreManagerEntity]),

@@ -24,12 +24,6 @@ import { UsersModule } from './modules/user/user.module';
       useFactory: async (configService: ConfigService) => configService.get('typeorm'),
       inject: [ConfigService],
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
-    }),
     HttpModule,
     UsersModule,
     StoreModule,
