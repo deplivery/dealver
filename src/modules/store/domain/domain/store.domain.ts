@@ -14,7 +14,7 @@ export type CreateStoreInput = Omit<StoreProps, 'isActivated'>;
 
 export class StoreDomain extends Domain<StoreProps> {
   static of(input: CreateStoreInput): StoreDomain {
-    StoreDomain.assertTime(input.startHour, input.endHour);
+    this.assertTime(input.startHour, input.endHour);
     return new StoreDomain({
       name: input.name,
       address: input.address,
@@ -26,10 +26,13 @@ export class StoreDomain extends Domain<StoreProps> {
   }
 
   changeActivated(isActivated: boolean): StoreDomain {
-    return new StoreDomain({
-      ...this.props,
-      isActivated,
-    });
+    return new StoreDomain(
+      {
+        ...this.props,
+        isActivated,
+      },
+      this.id,
+    );
   }
 
   changeStoreInfo(input: Partial<CreateStoreInput>): StoreDomain {
@@ -38,9 +41,12 @@ export class StoreDomain extends Domain<StoreProps> {
     this.props.address = input.address || this.props.address;
     this.props.startHour = input.startHour || this.props.startHour;
     this.props.endHour = input.endHour || this.props.endHour;
-    return new StoreDomain({
-      ...this.props,
-    });
+    return new StoreDomain(
+      {
+        ...this.props,
+      },
+      this.id,
+    );
   }
 
   private assertOpeningTime(startHour?: number, endHour?: number): void {

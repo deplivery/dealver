@@ -3,37 +3,36 @@ import { AutoController } from '@tiny-nestjs/auto-injectable';
 
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { CreateStoreUsecase } from '../../facade/create/create-store-usecase.service';
-import { DeleteStoreUsecase } from '../../facade/delete/delete-store.usecase';
-import { GetStoreUsecase } from '../../facade/get/get-store.usecase';
-import { UpdateStoreUsecase } from '../../facade/update/update-store.usecase';
+import { CreateStoreCommand } from '../../application/command/create-store.command';
+import { DeleteStoreCommand } from '../../application/command/delete-store.command';
+import { UpdateStoreCommand } from '../../application/command/update-store.command';
+import { FindStoreQuery } from '../../application/query/find-store.query';
+import { StoreApplicationService } from '../../application/service/store-application.service';
 
 @AutoController('store')
 export class StoreController {
-  constructor(
-    private readonly createStoreUsecase: CreateStoreUsecase,
-    private readonly updateStoreUsecase: UpdateStoreUsecase,
-    private readonly deleteStoreUsecase: DeleteStoreUsecase,
-    private readonly getStoreUsecase: GetStoreUsecase,
-  ) {}
+  constructor(private readonly service: StoreApplicationService) {}
 
   @Post('/')
   async create(@Body() input: CreateStoreDto) {
-    return this.createStoreUsecase.execute({ id: 1, role: 'manager' }, input);
+    return this.service.createStore(
+      new CreateStoreCommand(input.name, input.address, input.startHour, input.endHour, input.storeManagerId),
+    );
   }
-
   @Put('/')
   async update(@Body() input: UpdateStoreDto) {
-    return this.updateStoreUsecase.execute({ id: 1, role: 'manager' }, input);
+    return this.service.updateStore(
+      new UpdateStoreCommand(input.storeId, input.name, input.address, input.startHour, input.endHour),
+    );
   }
 
-  @Delete('/')
-  async delete() {
-    return this.deleteStoreUsecase.execute({ id: 1, role: 'manager' }, { storeId: 1 });
+  @Delete('/:id')
+  async delete(@Param('id') id: string) {
+    return this.service.deleteStore(new DeleteStoreCommand(Number(id)));
   }
 
   @Get('/:id')
   async get(@Param('id') id: string) {
-    return this.getStoreUsecase.getOne(Number(id));
+    return this.service.getStoreById(new FindStoreQuery(Number(id)));
   }
 }

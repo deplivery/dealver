@@ -18,7 +18,7 @@ export function LogBehavior(): MethodDecorator {
 }
 
 function logAction(level: LogLevel, message: string, context: any, stack: any) {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') {
     ['error', 'log', 'warn', 'debug', 'verbose'].includes(level) && console.log(message, context);
     return;
   }
